@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stock Screener</title>
+<style>
+  :root {
+    --bg: #f4f6fb; --card: #fff; --border: #e3e8f0; --text: #1c2536; --muted: #6b7690;
+    --primary: #1d4ed8; --primary-soft: #e6eefc; --green: #16a34a; --green-soft: #dcf5e4;
+    --amber-soft: #fdeec5; --amber: #a16207; --red-soft: #fde2e2; --red: #b91c1c; --blue-soft: #dbe7fb;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+  .layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; max-width: 1280px; margin: 0 auto; padding: 16px; }
+  aside, main { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  h3 { margin: 0 0 8px; font-size: 13px; }
+  h1 { margin: 0; font-size: 22px; }
+  .sub { color: var(--muted); margin: 4px 0 0; }
+  .section { margin-bottom: 20px; }
+  .opt { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; margin-bottom: 6px; border: 1px solid var(--border); border-radius: 8px; background: #fff; cursor: pointer; font: inherit; text-align: left; }
+  .opt.active { background: var(--primary-soft); border-color: #9db8f2; font-weight: 600; }
+  .opt .dot { margin-left: auto; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid #b6bfd0; }
+  .opt.active .dot { background: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 3px #fff; }
+  input[type=search] { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font: inherit; margin-bottom: 8px; }
+  .sectors { max-height: 280px; overflow: auto; }
+  .sec { display: flex; justify-content: space-between; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+  .sec:hover { background: #f1f4fa; }
+  .sec.active { background: var(--primary-soft); font-weight: 600; }
+  .sec span { color: var(--muted); font-weight: 400; }
+  .chk { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .chk label { display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; background: var(--amber-soft); cursor: pointer; font-size: 12px; }
+  .lbl { font-weight: 600; margin: 8px 0 6px; }
+  .btns { display: flex; gap: 8px; align-items: center; }
+  .btn { padding: 9px 14px; border-radius: 8px; border: 1px solid var(--border); background: #fff; cursor: pointer; font: inherit; }
+  .btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); flex: 1; font-weight: 600; }
+  .btn.link { border: none; background: none; color: var(--primary); padding: 4px 6px; }
+  header { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; }
+  .chip { padding: 5px 10px; border-radius: 999px; font-size: 12px; border: 1px solid transparent; cursor: pointer; }
+  .chip.c0 { background: var(--blue-soft); } .chip.c1 { background: var(--primary-soft); }
+  .chip.c2 { background: var(--green-soft); } .chip.c3 { background: #e0e7ff; }
+  .chip b { margin-left: 6px; opacity: .6; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  .stat { display: flex; gap: 12px; align-items: center; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: #fafbfe; }
+  .stat .ic { width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; background: var(--primary-soft); font-size: 18px; }
+  .stat strong { font-size: 18px; display: block; line-height: 1.1; }
+  .stat small { color: var(--muted); }
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 760px; }
+  th, td { padding: 9px 8px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; cursor: pointer; user-select: none; }
+  th.sorted { color: var(--primary); }
+  td.num, th.num { text-align: right; }
+  td small { color: var(--muted); display: block; }
+  .score { display: inline-block; min-width: 34px; text-align: center; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+  .s-hi { background: var(--green-soft); color: #166534; } .s-mid { background: var(--amber-soft); color: var(--amber); } .s-lo { background: var(--red-soft); color: var(--red); }
+  .spark { color: var(--green); font-size: 16px; }
+  .view { padding: 4px 12px; border: 1px solid #9db8f2; background: var(--primary-soft); color: var(--primary); border-radius: 6px; cursor: pointer; }
+  .foot { display: flex; justify-content: flex-end; align-items: center; gap: 14px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+  .foot select, .foot button { font: inherit; padding: 3px 6px; border: 1px solid var(--border); border-radius: 6px; background: #fff; }
+  .empty { text-align: center; padding: 40px; color: var(--muted); }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .stats { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="section"><h3>Market Cap</h3><div id="caps"></div></div>
+    <div class="section">
+      <h3>Industry / Sector</h3>
+      <input type="search" id="secSearch" placeholder="Search industry (e.g. Banking, IT ...)">
+      <div class="sectors" id="sectors"></div>
+    </div>
+    <div class="section">
+      <h3>Score Filters</h3>
+      <div class="lbl">Fundamental Score</div><div class="chk" id="fScore"></div>
+      <div class="lbl">Technical Score</div><div class="chk" id="tScore"></div>
+    </div>
+    <div class="btns"><button class="btn primary" id="apply">Apply Filters</button><button class="btn link" id="clear">Clear All</button></div>
+  </aside>
+
+  <main>
+    <header>
+      <div><h1>Stock Screener</h1><p class="sub">Find high-quality investment opportunities using our proprietary scoring model.</p></div>
+      <button class="btn" onclick="alert('Scores range 0-100. Overall = average of Fundamental and Technical. Sample data only.')">ⓘ How Scores Work?</button>
+    </header>
+    <div class="chips" id="chips"></div>
+    <div class="stats" id="stats"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr id="thead"></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="foot">
+      <span>Rows per page:
+        <select id="pageSize"><option>5</option><option selected>10</option><option>20</option></select></span>
+      <span id="range"></span>
+      <button id="prev">‹</button><button id="next">›</button>
+    </div>
+  </main>
+</div>
+
+<script>
+// Sample data: [name, ticker, ltp, mcapCr, sector, cap, fundamental, technical]
+const DATA = [
+  ["HDFC Bank","HDFCBANK",1632,1241000,"Banking","Large",88,82],
+  ["ICICI Bank","ICICIBANK",1294,906000,"Banking","Large",85,81],
+  ["State Bank of India","SBIN",812,725000,"Banking","Large",82,80],
+  ["Kotak Mahindra Bank","KOTAKBANK",1781,354000,"Banking","Large",84,83],
+  ["Axis Bank","AXISBANK",1118,346000,"Banking","Large",81,80],
+  ["IndusInd Bank","INDUSINDBK",1476,227000,"Banking","Large",80,82],
+  ["Bank of Baroda","BANKBARODA",261,136000,"Banking","Large",80,80],
+  ["Punjab National Bank","PNB",132,134000,"Banking","Large",81,84],
+  ["Canara Bank","CANBK",110,100000,"Banking","Large",80,81],
+  ["Union Bank of India","UNIONBANK",132,98000,"Banking","Large",78,81],
+  ["IDFC First Bank","IDFCFIRSTB",78,55000,"Banking","Mid",72,66],
+  ["Federal Bank","FEDERALBNK",190,46000,"Banking","Mid",79,74],
+  ["Karur Vysya Bank","KARURVYSYA",215,17000,"Banking","Small",76,70],
+  ["TCS","TCS",4120,1490000,"IT & Software","Large",90,78],
+  ["Infosys","INFY",1890,785000,"IT & Software","Large",86,74],
+  ["HCL Technologies","HCLTECH",1720,466000,"IT & Software","Large",83,79],
+  ["Persistent Systems","PERSISTENT",5400,84000,"IT & Software","Mid",84,85],
+  ["Coforge","COFORGE",7800,48000,"IT & Software","Mid",80,76],
+  ["Sonata Software","SONATSOFTW",690,9600,"IT & Software","Small",74,62],
+  ["Hindustan Unilever","HINDUNILVR",2480,583000,"FMCG","Large",82,58],
+  ["ITC","ITC",465,582000,"FMCG","Large",85,71],
+  ["Nestle India","NESTLEIND",2350,226000,"FMCG","Large",81,64],
+  ["Dabur India","DABUR",540,96000,"FMCG","Mid",70,55],
+  ["Maruti Suzuki","MARUTI",12400,390000,"Automobile","Large",84,77],
+  ["Tata Motors","TATAMOTORS",980,360000,"Automobile","Large",78,69],
+  ["TVS Motor","TVSMOTOR",2650,126000,"Automobile","Large",83,86],
+  ["Ashok Leyland","ASHOKLEY",230,67000,"Automobile","Mid",76,72],
+  ["Sun Pharma","SUNPHARMA",1780,427000,"Pharma & Healthcare","Large",87,81],
+  ["Cipla","CIPLA",1560,126000,"Pharma & Healthcare","Large",82,70],
+  ["Lupin","LUPIN",2040,93000,"Pharma & Healthcare","Mid",79,83],
+  ["Reliance Industries","RELIANCE",2910,1970000,"Energy & Utilities","Large",83,75],
+  ["NTPC","NTPC",372,360000,"Energy & Utilities","Large",78,80],
+  ["Tata Power","TATAPOWER",410,131000,"Energy & Utilities","Mid",72,77],
+  ["Tata Steel","TATASTEEL",158,197000,"Metals & Mining","Large",65,68],
+  ["Hindalco","HINDALCO",690,155000,"Metals & Mining","Large",77,82],
+  ["NMDC","NMDC",72,63000,"Metals & Mining","Mid",70,64],
+  ["Asian Paints","ASIANPAINT",2850,273000,"Consumer Durables","Large",80,55],
+  ["Titan Company","TITAN",3480,309000,"Consumer Durables","Large",84,72],
+  ["Havells India","HAVELLS",1620,101000,"Consumer Durables","Mid",78,69],
+  ["Bharti Airtel","BHARTIARTL",1590,950000,"Telecom","Large",86,84],
+  ["Vodafone Idea","IDEA",14,98000,"Telecom","Mid",32,48],
+  ["DLF","DLF",810,200000,"Realty","Large",76,80],
+  ["Godrej Properties","GODREJPROP",2780,77000,"Realty","Mid",74,73],
+  ["UPL","UPL",530,40000,"Chemicals","Mid",60,58],
+  ["SRF","SRF",2380,70000,"Chemicals","Mid",77,68],
+  ["Aarti Industries","AARTIIND",420,15000,"Chemicals","Small",58,52]
+].map(([name,ticker,ltp,mcap,sector,cap,f,t]) => ({name,ticker,ltp,mcap,sector,cap,f,t,o:Math.round((f+t)/2)}));
+
+const CAPS = ["Large","Mid","Small"];
+const BANDS = {"<50":[0,49],"50-80":[50,79],"≥80":[80,100]};
+const SECTORS = [...new Set(DATA.map(d => d.sector))];
+
+// applied = what the table uses; draft = sidebar edits until "Apply Filters"
+const initial = () => ({cap:"Large", sector:"Banking", f:["≥80"], t:["≥80"]});
+let applied = initial(), draft = structuredClone(applied);
+let sort = {key:"mcap", dir:-1}, page = 0, pageSize = 10, selected = new Set();
+const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString("en-IN");
+
+function bandMatch(v, bands) { return !bands.length || bands.some(b => v >= BANDS[b][0] && v <= BANDS[b][1]); }
+function filtered() {
+  const rows = DATA.filter(d => (!applied.cap || d.cap === applied.cap) && (!applied.sector || d.sector === applied.sector)
+    && bandMatch(d.f, applied.f) && bandMatch(d.t, applied.t));
+  const k = sort.key;
+  return rows.sort((a,b) => (typeof a[k] === "string" ? a[k].localeCompare(b[k]) : a[k]-b[k]) * sort.dir);
+}
+
+function renderSidebar() {
+  $("caps").innerHTML = CAPS.map(c => `<button class="opt ${draft.cap===c?"active":""}" data-cap="${c}">${c} Cap<i class="dot"></i></button>`).join("");
+  const q = $("secSearch").value.toLowerCase();
+  $("sectors").innerHTML = SECTORS.filter(s => s.toLowerCase().includes(q)).map(s =>
+    `<div class="sec ${draft.sector===s?"active":""}" data-sec="${s}">${s}<span>${DATA.filter(d=>d.sector===s).length}</span></div>`).join("");
+  for (const [id,key] of [["fScore","f"],["tScore","t"]])
+    $(id).innerHTML = Object.keys(BANDS).map(b => `<label><input type="checkbox" data-k="${key}" value="${b}" ${draft[key].includes(b)?"checked":""}>${b.replace("-"," - ")}</label>`).join("");
+}
+
+function renderChips() {
+  const items = [];
+  if (applied.cap) items.push(["cap", `${applied.cap} Cap`]);
+  if (applied.sector) items.push(["sector", applied.sector]);
+  if (applied.f.length) items.push(["f", `Fundamental ${applied.f.join(", ")}`]);
+  if (applied.t.length) items.push(["t", `Technical ${applied.t.join(", ")}`]);
+  $("chips").innerHTML = items.map(([k,l],i) => `<span class="chip c${i}" data-chip="${k}">${l}<b>×</b></span>`).join("")
+    + (items.length ? `<button class="btn link" id="clearChips">🗑 Clear All</button>` : "");
+  return items.length;
+}
+
+const cls = v => v >= 80 ? "s-hi" : v >= 50 ? "s-mid" : "s-lo";
+const COLS = [["name","Stock Name"],["ltp","LTP (₹)","num"],["mcap","Market Cap (₹ Cr)","num"],["sector","Sector"],["f","Fundamental"],["t","Technical"],["o","Overall"]];
+
+function render() {
+  const rows = filtered(), nFilters = renderChips();
+  const pages = Math.max(1, Math.ceil(rows.length / pageSize));
+  page = Math.min(page, pages - 1);
+  const slice = rows.slice(page*pageSize, (page+1)*pageSize);
+  const sectors = new Set(rows.map(r => r.sector)).size;
+
+  $("stats").innerHTML = [
+    ["📊", rows.length, "Stocks Found"], ["🥧", sectors, sectors === 1 ? "Sector" : "Sectors"],
+    ["👑", applied.cap ? `${applied.cap} Cap` : "All", "Market Cap Filter"], ["⏷", nFilters, "Active Filters"]
+  ].map(([i,v,l]) => `<div class="stat"><div class="ic">${i}</div><div><strong>${v}</strong><small>${l}</small></div></div>`).join("");
+
+  $("thead").innerHTML = `<th><input type="checkbox" id="all" ${slice.length && slice.every(r=>selected.has(r.ticker))?"checked":""}></th><th>#</th>`
+    + COLS.map(([k,l,c]) => `<th class="${c||""} ${sort.key===k?"sorted":""}" data-sort="${k}">${l}${sort.key===k?(sort.dir>0?" ↑":" ↓"):""}</th>`).join("") + "<th></th><th>Action</th>";
+
+  $("tbody").innerHTML = slice.length ? slice.map((r,i) => `<tr>
+    <td><input type="checkbox" data-sel="${r.ticker}" ${selected.has(r.ticker)?"checked":""}></td>
+    <td>${page*pageSize+i+1}</td>
+    <td><b>${r.name}</b><small>${r.ticker}</small></td>
+    <td class="num">${fmt(r.ltp)}</td><td class="num">${fmt(r.mcap)}</td><td>${r.sector}</td>
+    <td><span class="score ${cls(r.f)}">${r.f}</span></td>
+    <td><span class="score ${cls(r.t)}">${r.t}</span></td>
+    <td><span class="score ${cls(r.o)}">${r.o}</span></td>
+    <td class="spark">📈</td>
+    <td><button class="view" onclick="alert('${r.name} (${r.ticker}) — detail view coming soon')">View</button></td></tr>`).join("")
+    : `<tr><td colspan="11" class="empty">No stocks match these filters. Try clearing some.</td></tr>`;
+
+  const from = rows.length ? page*pageSize+1 : 0;
+  $("range").textContent = `${from}-${Math.min((page+1)*pageSize, rows.length)} of ${rows.length}`;
+  $("prev").disabled = page === 0; $("next").disabled = page >= pages - 1;
+}
+
+function sync() { draft = structuredClone(applied); renderSidebar(); render(); }
+
+// --- events ---
+$("caps").onclick = e => { const b = e.target.closest("[data-cap]"); if (b) { draft.cap = b.dataset.cap; renderSidebar(); } };
+$("sectors").onclick = e => { const s = e.target.closest("[data-sec]"); if (s) { draft.sector = draft.sector === s.dataset.sec ? null : s.dataset.sec; renderSidebar(); } };
+$("secSearch").oninput = renderSidebar;
+document.querySelector("aside").onchange = e => {
+  const k = e.target.dataset.k; if (!k) return;
+  draft[k] = e.target.checked ? [...draft[k], e.target.value] : draft[k].filter(v => v !== e.target.value);
+};
+$("apply").onclick = () => { applied = structuredClone(draft); page = 0; render(); };
+const clearAll = () => { applied = {cap:null, sector:null, f:[], t:[]}; page = 0; sync(); };
+$("clear").onclick = clearAll;
+$("chips").onclick = e => {
+  if (e.target.id === "clearChips") return clearAll();
+  const c = e.target.closest("[data-chip]"); if (!c) return;
+  const k = c.dataset.chip; applied[k] = Array.isArray(applied[k]) ? [] : null; page = 0; sync();
+};
+$("thead").onclick = e => {
+  if (e.target.id === "all") { filtered().slice(page*pageSize,(page+1)*pageSize).forEach(r => e.target.checked ? selected.add(r.ticker) : selected.delete(r.ticker)); return render(); }
+  const th = e.target.closest("[data-sort]"); if (!th) return;
+  const k = th.dataset.sort; sort = {key:k, dir: sort.key === k ? -sort.dir : -1}; render();
+};
+$("tbody").onchange = e => { const t = e.target.dataset.sel; if (t) { e.target.checked ? selected.add(t) : selected.delete(t); render(); } };
+$("pageSize").onchange = e => { pageSize = +e.target.value; page = 0; render(); };
+$("prev").onclick = () => { page--; render(); };
+$("next").onclick = () => { page++; render(); };
+
+sync();
+</script>
+</body>
+</html>
