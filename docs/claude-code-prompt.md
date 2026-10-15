@@ -45,6 +45,12 @@ Put these as CSS variables on `:root` / `[data-theme="dark"]` / `[data-theme="li
 - The report card has a gradient border (gold → blue → emerald).
 - Section icons are gradient tiles in their section's colour.
 
+### 1.15 Brand logo
+Use the official FinLit logo: a figure climbing stairs inside "FinLit", a gold "Lit", and green rising bars with an arrow. Never redraw or restyle it.
+
+- **Until the official SVG is supplied:** use `assets/finlit-logo-on-dark.png` on dark surfaces and `assets/finlit-logo-on-light.png` on light ones. In the light version the white ink becomes navy, and neither file has a background box.
+- **When the official SVG arrives:** swap it in, with the ink colour driven by the theme.
+
 ### 1.2 Typography (Google Fonts)
 
 - **Newsreader** (opsz 6–72): company name, section titles, the score numeral (weight 300), the thesis line. Never inside tables.
