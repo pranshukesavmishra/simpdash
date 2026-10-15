@@ -34,6 +34,7 @@
   --v-strong: #34D399; --v-healthy: #22D3EE; --v-mixed: #F59E0B; --v-weak: #FB7185;
   --c1: #EBC46A; --c2: #60A5FA; --c3: #34D399; --c4: #A78BFA; --c5: #94A3B8;
   --line: #F2D896; --area: #EBC46A;
+  --logo-ink: #F5F5F5; --logo-gold: #D7AA5B; --logo-green: #2FAE7F;
   --t-basic: #38BDF8; --t-bronze: #F59E42; --t-gold: #FACC15;
   --shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 1px 2px rgba(0,0,0,.4), 0 22px 44px -26px rgba(0,0,0,.75);
   --lift: 0 1px 2px rgba(0,0,0,.4), 0 28px 50px -24px rgba(0,0,0,.8);
@@ -55,6 +56,7 @@
   --v-strong: #047857; --v-healthy: #0E7490; --v-mixed: #B45309; --v-weak: #BE123C;
   --c1: #E3A42A; --c2: #2563EB; --c3: #059669; --c4: #7C3AED; --c5: #94A3B8;
   --line: #1E3A8A; --area: #3B82F6;
+  --logo-ink: #0B1530; --logo-gold: #B5852A; --logo-green: #16875E;
   --t-basic: #0284C7; --t-bronze: #C2570C; --t-gold: #B88A04;
   --shadow: 0 1px 2px rgba(15,30,70,.06), 0 14px 32px -18px rgba(15,30,70,.22);
   --lift: 0 2px 4px rgba(15,30,70,.06), 0 26px 46px -22px rgba(15,30,70,.32);
@@ -142,10 +144,9 @@ a { color: inherit; }
 /* ---------- Top bar (solid: no blur, for smooth scrolling) ---------- */
 .top { position: sticky; top: 0; z-index: 40; background: var(--header); border-bottom: 1px solid var(--border); padding-top: env(safe-area-inset-top, 0px); }
 .top .wrap { display: flex; align-items: center; gap: 12px; height: 62px; }
-.logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: -.01em; line-height: 1; flex: none; }
-.logo b { font-weight: 500; background: linear-gradient(120deg, var(--gold-2), var(--gold-deep)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.logo .mk { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: linear-gradient(135deg, #0F2A5C, #0A1838); box-shadow: inset 0 0 0 1px rgba(240,199,110,.35); }
-.logo .mk svg { width: 18px; height: 18px; }
+.logo { display: inline-flex; align-items: center; text-decoration: none; flex: none; line-height: 0; }
+.lg-foot { height: 62px !important; }
+.lg-svg { height: 52px; width: auto; display: block; overflow: visible; }
 .topnav { display: flex; gap: 2px; margin-left: 8px; }
 .topnav a { text-decoration: none; font-size: 13.5px; font-weight: 500; color: var(--muted); padding: 8px 10px; border-radius: 8px; transition: color .15s, background-color .15s; white-space: nowrap; }
 .topnav a:hover { color: var(--text); background: var(--s3); }
@@ -579,7 +580,7 @@ tbody tr:hover td { background: var(--s2); }
 .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: #0F1C36; color: #EEF2FA; border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 11px 18px; z-index: 80; box-shadow: 0 20px 40px -16px rgba(0,0,0,.6); font-size: 13.5px; max-width: calc(100vw - 32px); }
 
 /* Footer */
-footer.band { padding-block: 0; border-top: 1px solid rgba(255,255,255,.08); }
+footer.band { --logo-ink: #F5F5F5; --logo-gold: #D7AA5B; --logo-green: #2FAE7F; padding-block: 0; border-top: 1px solid rgba(255,255,255,.08); }
 .fcta { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-block: 44px 36px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .fcta h2 { font-size: 32px; }
 .fcta p { margin: 6px 0 0; color: var(--muted); }
@@ -689,7 +690,7 @@ footer.band { padding-block: 0; border-top: 1px solid rgba(255,255,255,.08); }
   .ring { width: 46px; height: 46px; }
   .pt-ev { display: none; }
   .pd-ev { grid-template-columns: 1fr; }
-  .logo span { display: none; }
+  .lg-svg { height: 38px; }
   .otiles { grid-template-columns: 1fr 1fr; }
 }
 </style>
@@ -699,10 +700,7 @@ footer.band { padding-block: 0; border-top: 1px solid rgba(255,255,255,.08); }
 <div class="tape" aria-label="Market snapshot"><div class="tape-track" id="tape"></div></div>
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="#" aria-label="FinLit home">
-      <span class="mk"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="12" width="3" height="6" rx=".7" fill="#34D399"/><rect x="7.5" y="8.5" width="3" height="9.5" rx=".7" fill="#34D399"/><rect x="13" y="5" width="3" height="13" rx=".7" fill="#34D399"/><path d="M2.5 9 L8 5.5 L11 6.5 L17.5 1.8" fill="none" stroke="#F0C76E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span>Fin<b>Lit</b></span>
-    </a>
+    <a class="logo" href="#" aria-label="FinLit home"><svg class="lg-svg" viewBox="20 0 114 77" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FinLit"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M27 72V37.5h15.5M27 53.5h12.5" stroke="var(--logo-ink)" stroke-width="2.8" stroke-linecap="square" stroke-linejoin="miter"/><path d="M66 72V49.5M66 56.5c0-4.6 3.4-7.6 7.8-7.6 4.6 0 7.7 3 7.7 8.2V72" stroke="var(--logo-ink)" stroke-width="2.8" stroke-linecap="square"/><path d="M37 74.5h15v-4.2" stroke="var(--logo-ink)" stroke-width="1.5" stroke-linecap="butt"/><path d="M52 70.3h13.5v-4.4h12.6v-4.4h9.6v-4.6h5.6" stroke="var(--logo-gold)" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="miter"/><g stroke="var(--logo-ink)" stroke-width="2.3"><path d="M53.6 46.6 52.2 57.5"/><path d="M52.2 57.5 48.6 64.8 47.6 70"/><path d="M52.2 57.5l4.4 3.2.6 5.6"/><path d="M53.4 49.2l-3.2 4.6M53.4 49.2l4.4 3.6 2.4-.4"/></g><path d="M93.2 29v37.2h14.6" stroke="var(--logo-gold)" stroke-width="2.8" stroke-linecap="square" stroke-linejoin="miter"/><path d="M97.4 34.6h17.2" stroke="var(--logo-gold)" stroke-width="1" opacity=".55"/><path d="M97.4 34.6v22" stroke="var(--logo-gold)" stroke-width="1" opacity=".35"/><path d="M113 48v18.2" stroke="var(--logo-gold)" stroke-width="2.8" stroke-linecap="butt"/><path d="M123.4 40.5v20.8c0 3.4 1.6 4.9 4.6 4.9h1.4M119 48.6h10.6" stroke="var(--logo-gold)" stroke-width="2.7" stroke-linecap="butt"/><path d="M91.5 25.5c8-3.4 15.4-9.4 21.3-19" stroke="var(--logo-green)" stroke-width="1.5"/></g><circle cx="53.4" cy="41.4" r="2.7" fill="var(--logo-gold)"/><circle cx="113" cy="41.6" r="2.4" fill="var(--logo-gold)"/><path d="M114.6 3.2l.6 6.9-6-3.5z" fill="var(--logo-green)"/><rect x="99.2" y="24.6" width="3.4" height="9.6" fill="var(--logo-green)"/><rect x="105" y="19.8" width="3.4" height="14.4" fill="var(--logo-green)"/><rect x="110.8" y="14.8" width="3.4" height="19.4" fill="var(--logo-green)"/></svg></a>
     <nav class="topnav" aria-label="Site"><a href="index.html">Screener</a><a href="#hero" class="hl">Research</a><a href="#plans">Plans</a><a href="#" class="opt ext">About</a><a href="#" class="opt ext">Blog</a></nav>
     <div class="grow"></div>
     <button class="search" id="openPalette" aria-label="Search stocks">
@@ -996,7 +994,7 @@ footer.band { padding-block: 0; border-top: 1px solid rgba(255,255,255,.08); }
 
   <footer class="band">
     <div class="wrap">
-      <div class="fcta"><div><h2>Have a question about your portfolio?</h2><p>Talk to the FinLit research team.</p></div><a class="btn primary" href="#" id="contactBtn">Get in touch</a></div>
+      <div class="fcta"><div><a class="logo" href="#" aria-label="FinLit home" style="margin-bottom:18px"><svg class="lg-svg lg-foot" viewBox="20 0 114 77" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FinLit"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M27 72V37.5h15.5M27 53.5h12.5" stroke="var(--logo-ink)" stroke-width="2.8" stroke-linecap="square" stroke-linejoin="miter"/><path d="M66 72V49.5M66 56.5c0-4.6 3.4-7.6 7.8-7.6 4.6 0 7.7 3 7.7 8.2V72" stroke="var(--logo-ink)" stroke-width="2.8" stroke-linecap="square"/><path d="M37 74.5h15v-4.2" stroke="var(--logo-ink)" stroke-width="1.5" stroke-linecap="butt"/><path d="M52 70.3h13.5v-4.4h12.6v-4.4h9.6v-4.6h5.6" stroke="var(--logo-gold)" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="miter"/><g stroke="var(--logo-ink)" stroke-width="2.3"><path d="M53.6 46.6 52.2 57.5"/><path d="M52.2 57.5 48.6 64.8 47.6 70"/><path d="M52.2 57.5l4.4 3.2.6 5.6"/><path d="M53.4 49.2l-3.2 4.6M53.4 49.2l4.4 3.6 2.4-.4"/></g><path d="M93.2 29v37.2h14.6" stroke="var(--logo-gold)" stroke-width="2.8" stroke-linecap="square" stroke-linejoin="miter"/><path d="M97.4 34.6h17.2" stroke="var(--logo-gold)" stroke-width="1" opacity=".55"/><path d="M97.4 34.6v22" stroke="var(--logo-gold)" stroke-width="1" opacity=".35"/><path d="M113 48v18.2" stroke="var(--logo-gold)" stroke-width="2.8" stroke-linecap="butt"/><path d="M123.4 40.5v20.8c0 3.4 1.6 4.9 4.6 4.9h1.4M119 48.6h10.6" stroke="var(--logo-gold)" stroke-width="2.7" stroke-linecap="butt"/><path d="M91.5 25.5c8-3.4 15.4-9.4 21.3-19" stroke="var(--logo-green)" stroke-width="1.5"/></g><circle cx="53.4" cy="41.4" r="2.7" fill="var(--logo-gold)"/><circle cx="113" cy="41.6" r="2.4" fill="var(--logo-gold)"/><path d="M114.6 3.2l.6 6.9-6-3.5z" fill="var(--logo-green)"/><rect x="99.2" y="24.6" width="3.4" height="9.6" fill="var(--logo-green)"/><rect x="105" y="19.8" width="3.4" height="14.4" fill="var(--logo-green)"/><rect x="110.8" y="14.8" width="3.4" height="19.4" fill="var(--logo-green)"/></svg></a><h2>Have a question about your portfolio?</h2><p>Talk to the FinLit research team.</p></div><a class="btn primary" href="#" id="contactBtn">Get in touch</a></div>
       <div class="ffine">
         <span>FinLit Ventures · Research-led perspectives across Indian and global markets.</span>
         <span>FinLit Ventures is a technology company and is not registered with SEBI or AMFI. Research shown here is for information only and is not investment advice.</span>
@@ -1832,7 +1830,7 @@ function buildPrintDoc() {
   const dial = drawDial(false, ROOT, tmp, true);
   el("text", { x: 150, y: 160, "text-anchor": "middle", "font-family": "Newsreader, Georgia, serif", "font-size": 64, "font-weight": 300, fill: "#0B1530" }, dial).textContent = "61";
   el("text", { x: 150, y: 186, "text-anchor": "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 10, "font-weight": 700, "letter-spacing": ".12em", fill: css("--v-mixed") }, dial).textContent = "● MIXED";
-  const head = (sec) => `<div class="pp-head"><span class="lg">Fin<b>Lit</b> · Research Report</span><span>${sec}</span></div>`;
+  const head = (sec) => `<div class="pp-head"><span class="lg" style="display:flex;align-items:center;gap:10px;--logo-ink:#F5F5F5;--logo-gold:#D7AA5B;--logo-green:#2FAE7F">${$(".top .lg-svg").outerHTML.replace('class="lg-svg"', 'class="lg-svg" style="height:34px;width:auto"')}<span style="white-space:nowrap">Research Report</span></span><span>${sec}</span></div>`;
   const foot = `<div class="pf"><span>Bharat Petroleum Corporation Ltd (BPCL) · Consolidated · Data as of 15 Oct 2026 · Source: Finedge</span><span>Research summary, not a recommendation. FinLit Ventures is not registered with SEBI or AMFI.</span></div>`;
   const notes = $$("#notes .note").map((c) => [c.querySelector("h3").textContent, $$("li > span:last-child", c).map((x) => x.textContent)]);
   doc.innerHTML = `
