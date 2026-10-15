@@ -1,0 +1,228 @@
+# Claude Code Prompt — FinLit Stock Research Page (v2, report-first)
+
+> Paste everything below the line into Claude Code from the root of the FinLit front-end repo.
+> A working reference prototype of this design lives in `simpdash/stock.html` (static HTML, BPCL data). Open it side by side while building; match it, then improve on it.
+
+---
+
+## Context
+
+Rebuild the **Stock Fundamentals** page of FinLit (finlitventures.com, `/blog/admin/stock-fundamentals`) as a premium, launch-ready research page for many users, including high-net-worth investors. The backend models and data pipeline are finished. This is a **presentation-layer rebuild only**: do not change APIs, contracts or data shapes; reuse existing fetch hooks.
+
+The goal is **stock research that feels simple, calm and trustworthy**. The **Research Report** (composite score, five pillars, notes, insights) is the product's centrepiece and must be the first thing a user sees.
+
+Detected stack on the live page: React + Tailwind + Recharts. **Before writing code, inspect the repo** and report the framework, router, data layer and the API response type for fundamentals.
+
+---
+
+## 1. Visual identity: "Private Bank Research Note"
+
+Deep vault navy, champagne gold used sparingly, an editorial serif for names and scores, and perfectly aligned tabular numbers. Light theme is warm fine paper with navy ink, never a plain white afterthought. No neon, purple gradients, glassmorphism or pill-everything SaaS look.
+
+### 1.1 Colour tokens
+
+Define them as CSS variables on `:root` / `[data-theme="dark"]` / `[data-theme="light"]` and map them into `tailwind.config`. No hex values in components. Contrast was checked to WCAG AA on s1 and s3.
+
+| Token | Dark | Light |
+|---|---|---|
+| `--bg` | `#060D1A` | `#F5F1E8` |
+| `--s1` (cards) | `#0B1526` | `#FFFDF8` |
+| `--s2` (raised/hover) | `#111D33` | `#FAF6EE` |
+| `--s3` (inputs, tracks) | `#18263F` | `#EEE8DC` |
+| `--border` | `rgba(201,214,236,.08)` | `#E4DDCF` |
+| `--border-strong` | `rgba(201,214,236,.16)` | `#CFC6B3` |
+| `--hairline-gold` | `rgba(212,175,97,.32)` | `rgba(126,93,16,.35)` |
+| `--text` | `#ECE7DC` (warm ivory) | `#0B1628` (navy ink) |
+| `--muted` | `#9CA5B7` | `#4C566A` |
+| `--faint` | `#7C8599` | `#666E7F` |
+| `--gold` (text/lines) | `#D4AF61` | `#7E5D10` |
+| `--gold-fill` (fills/CTA) | `#D4AF61` | `#B8913F` |
+| `--gain` / `--loss` | `#3DC48F` / `#F2796E` | `#086F4A` / `#B5362F` |
+| `--warn` / `--info` | `#E9B44C` / `#86A9EA` | `#875A0C` / `#2A5DB5` |
+| Verdict: strong / healthy / mixed / weak | `#3DC48F` / `#5FB3A1` / `#9DB0CB` / `#F2796E` | `#086F4A` / `#256F61` / `#4F6582` / `#B5362F` |
+| Chart series 1–5 | `#D4AF61 #7FA6E8 #5FB3A1 #B4BAC7 #B394C4` | `#9C7A2E #3E67A8 #256F61 #8A919E #7E6596` |
+
+Rules:
+- **Gold** marks brand, the primary CTA, the composite score arc, "latest year" and focus. Never use it for gain/loss.
+- **Red and green go only on signed changes**, always with a sign and an ▲▼ arrow. Levels (e.g. ROE 28.47%) stay in `--text`.
+- Verdicts render as a coloured 6px dot plus small-caps text, never as rainbow pills.
+- Theme follows `prefers-color-scheme` on first visit. The user's choice persists (wrap localStorage in try/catch) and is set by an inline script before paint, so there is no flash.
+
+### 1.2 Typography (Google Fonts)
+
+- **Newsreader** (opsz 6–72): company name, section titles, the score numeral (weight 300), the thesis line. Never inside tables.
+- **IBM Plex Sans** 400/500/600: all UI and numbers. It keeps continuity with the live site. Use `font-variant-numeric: tabular-nums lining-nums`.
+- **IBM Plex Mono**: ticker, ISIN, keyboard hints only.
+- Scale (px): 11 label · 13 meta · 15 body · 18 lede · 22 thesis · 30 section · 34 company name · 72–84 score. Labels: 11px, 600 weight, uppercase, `.12em` tracking. Gold eyebrows use `.16em`.
+- Render ₹ at `.62em` in muted colour, and units (Cr, %, ×) at `.7em` in muted colour.
+
+### 1.3 Surfaces and motion
+
+- **Radii:** 12 for cards, 8 for tiles and inputs, 6 for buttons, 4 for tags.
+- **Card surface:** a faint top-light gradient, a 1px border, and a layered shadow: `inset 0 1px 0 rgba(255,255,255,.045), 0 1px 2px rgba(0,0,0,.35), 0 18px 40px -20px rgba(0,0,0,.6)`, with a warm, lighter version in light mode.
+- **Signature details:**
+  - A gold hairline across the top of the report card.
+  - Section folios ("§ 03" plus a 32px gold rule).
+  - A gold underline under table headers.
+  - The FinLit rising-bars mark as a ~4% watermark in the report card.
+  - A 3.5% paper grain in light mode.
+- **Motion** is 140–240ms ease-out, with one orchestrated moment on load:
+  - The hairline draws.
+  - The score arc sweeps 0→61 while the numeral counts up.
+  - The pillar arcs and bars fill with a 70ms stagger.
+- Under `prefers-reduced-motion`, show the final state immediately.
+
+---
+
+## 2. Information architecture: answer first, evidence next, raw data last
+
+### 2.1 Top bar (sticky, blurred)
+Contents: logo, ⌘K / Ctrl K search palette (company, ticker or ISIN, keyboard navigable, `role=dialog`, combobox semantics), Consolidated/Standalone, **Simple/Pro** toggle (default Simple, persisted), and theme toggle. On mobile, search becomes icon-only and Consolidated/Standalone moves into the report header.
+
+### 2.2 Identity bar (compact, one line)
+Company name (serif, 34px), ticker · exchange · sector · ISIN, last price with change and as-of time, a 52-week range micro-bar, and the buttons **Watchlist** (primary), **Download** (menu, see §4) and **Copy link**. Keep it compact so it never competes with the report.
+
+### 2.3 Research Report card (the hero, above the fold)
+One raised card, eyebrow "FinLit Research Report · FY26 · Consolidated", with "Updated · Source · How we score" on the right. Three columns:
+
+1. **Engraved score dial.**
+   - 100 tick marks.
+   - A thin gold composite arc (61/100) with a knob at its end.
+   - Five outer pillar segments of 72° each. Each fills to its pillar score and is coloured by verdict, with labels outside the ring.
+   - Centre: the numeral, "out of 100", and the verdict.
+   - Hovering a segment highlights its ledger row and the reverse. Clicking opens the row.
+2. **Pillar ledger.** Five rows, each with name, evidence line (3 metrics), score (serif), bar and verdict. A row expands to a one-line plain-English explanation and 3 evidence tiles. Rows are buttons with `aria-expanded`.
+3. **The read.** A thesis sentence in serif, 3 "what you need to know" points (✓ / !), and the disclaimer line.
+
+A **key-numbers strip** runs along the bottom of the card: Market cap, P/E vs sector, P/B vs sector, EV/EBITDA vs sector, dividend yield, ROE, ROCE, D/E. Each has an ⓘ tip.
+
+At 390px everything stacks in this order: identity, dial (~240px), ledger, read, KPIs in a 2-column grid.
+
+### 2.4 Sticky section nav
+Notes · Price · Financials · Ratios · Ownership · Peers · Business · Dividends · Method. Scroll-spy uses a gold underline on the active item. Once the report scrolls away, a mini identity appears on the left (`BPCL ₹293.45 +1.47% 61`).
+
+### 2.5 Sections
+1. **Research notes:** three columns, Strengths / Watch-outs / From the model, in plain language with real numbers.
+2. **Price & momentum:**
+   - **Price chart.** Ink line with a soft gold area. EMA 20/50/200 and volume are Pro-only. Ranges 1M–MAX. Mark the high and low. A crosshair tooltip shows date and close.
+   - **Bad-tick filter:** drop any close ≤ 0, or more than 35% away from the median of its neighbours. Break the line at the gap and footnote it.
+   - **Momentum card:** RSI gauge with 30/70 zones, the gaps to the 50- and 200-day averages, and price-return diverging bars.
+3. **Financials:** tabs for P&L / Balance sheet / Cash flow. Each tab has a one-line lede, a chart and, in Pro, the statement table.
+   - **P&L:** stacked panels sharing years. Revenue goes on top (₹ L Cr). Net profit and net margin go below. Never use a dual axis, since revenue is about 20× profit. Highlight the latest year in gold and annotate FY23 (0.4% margin) and FY26 (PAT +93.8%).
+   - **Balance sheet:** stacked funding bars (equity + reserves, borrowings, other liabilities **net of borrowings**: the feed's "other liabilities" already includes borrowings).
+   - **Cash flow:** diverging operating/investing/financing bars with a free-cash-flow line. Annotate "Record ₹50,769 Cr".
+   - **Tables:**
+     - sticky first column, latest column tinted gold, YoY column, sparkline column;
+     - subtotal rows bold;
+     - U+2212 minus;
+     - Indian grouping;
+     - "—" with a "Not reported" tooltip for gaps.
+4. **Ratios:** grouped by pillar (Valuation, Quality & returns, Growth, Profitability, Balance sheet, Shareholder returns).
+   - Each row shows the value with its unit and an ⓘ. A bullet bar compares it with the sector where a benchmark exists ("Cheaper than sector 15.49×").
+   - Simple mode shows a definition under each row. Pro adds more rows.
+   - Pro also adds the 9-year history table with sparklines.
+5. **Ownership:** two 100% stacked bars (a year ago against latest), plus four tiles with change chips in "pts".
+6. **Peers:** real peer set. BPCL is pinned with a gold left rule. Market cap is shown with a log-scale size bar. Each row links to that stock.
+7. **Business:** a plain-English description, consumer brands as tags, and key facts.
+8. **Dividends:** horizontal timeline with amount, type and date. Never show raw Unix timestamps.
+9. **Method & data:** how the score works (bands Strong ≥ 80, Healthy 65–79, Mixed 45–64, Weak < 45), source and as-of date, and a **data notes** list of feed inconsistencies.
+10. **Footer:** "Have a question about your portfolio?" CTA and the SEBI/AMFI disclaimer.
+
+**Dev metrics** are never shown on the public page. They are admin-only, in a drawer opened from the user menu.
+
+---
+
+## 3. Making it simple (UX rules)
+
+1. **ⓘ on every metric.**
+   - Hover/focus on desktop, tap on touch, Esc to close; the popover is positioned to stay inside the viewport.
+   - Content: name, one-line definition, "how to read", formula.
+   - Centralise all of it in one `metricGlossary.ts`. Replace every placeholder description ("Shows a company financial metric used to compar…").
+2. **Simple vs Pro.**
+   - Simple: report, notes, 1Y chart, statement charts, core ratios with definitions, ownership, peers, dividends.
+   - Pro adds statement tables, the 9-year history, extra ratios and chart indicators.
+3. **Copy is research, not advice.** Say "Research summary", never "verdict/recommendation/analyst". Every page and export carries the not-SEBI-registered disclaimer.
+4. **Indian formatting** goes through one utility:
+   - ₹ with no space, never "Rs.";
+   - en-IN grouping (1,27,313), and "L Cr" from 1 lakh crore upward;
+   - multiples with "×", changes in "pts";
+   - U+2212 minus;
+   - FY labels (FY26 = Apr 2025–Mar 2026).
+5. **Loading states:** skeletons shaped like the final layout, with no layout shift.
+6. **Empty and error states:** an empty value is "—" with a tooltip. An error shows an inline retry card.
+7. **Accessibility:**
+   - WCAG AA in both themes;
+   - full keyboard support, with visible gold focus rings;
+   - each chart gets a text `aria-label` summary;
+   - pillar bars use `role=meter`;
+   - touch targets are at least 24px.
+8. **Responsive:**
+   - Design at 1440, 1180, 900, 720 and 390.
+   - The page never scrolls horizontally; tables scroll inside their own container with a sticky first column.
+   - Draw charts at their real container width (`ResizeObserver`), so text never scales down.
+
+---
+
+## 4. Downloads (offline reading)
+
+A **Download** menu in the identity bar offers three formats.
+
+1. **Research note (PDF).** This is a dedicated print layout, not a printout of the web page.
+   - Build it in a hidden container on `beforeprint`. Switch to the light palette, redraw the charts into it at fixed width, then restore on `afterprint`. Use `@page { size: A4; margin: 14mm }` and give each page `break-after: page`.
+   - Every page has a branded header and a footer with source, as-of date and disclaimer.
+   - Pages:
+     1. **Cover.** Name, price line, score dial, pillar table with bars and one-liners, the thesis, three key points, the key numbers grid.
+     2. **Research notes and price.** The notes, a 1Y price chart, momentum and returns tables.
+     3. **Profit & loss.** Chart plus the 6-year table.
+     4. **Balance sheet and cash flow.** Both charts plus the cash-flow table with FCF.
+     5. **Ratios and more.** Ratios by pillar, 9-year history, shareholding, peers, dividends, method.
+   - If the team wants a one-click file instead of the print dialog, generate the same layout server-side (Puppeteer on the existing backend) at `/api/report/:ticker.pdf`.
+2. **Offline copy (HTML).** A single self-contained file of the interactive page (inline data, CSS and JS) that opens without internet. Fonts fall back to Georgia and system sans.
+3. **Data (CSV).** Score and pillars, P&L, balance sheet, cash flow, ratio history, ratio groups, shareholding, peers, dividends. Use a UTF-8 BOM so Excel shows ₹ correctly.
+
+---
+
+## 5. Data issues to surface (UI layer) and report to the backend
+
+- The dividend return is 89.14% for every period from 3M to 5Y. Hide dividend and total-return figures until it is fixed.
+- The 1Y return is −15.41% in one place and −16.2% in another. Use −15.41% and footnote the other.
+- Dividend payout is 81.42% in one place and 38% in another. The FY26 dividends declared (₹17.50) over EPS ₹59.57 give 29%.
+- Interest coverage is 8.38× in one place and 8.78× in another. From the statements, (PBT + interest) ÷ interest gives about 12.8×.
+- ROE is 28.47% vs 25.8%, ROCE 17.3% vs 25.31%, OPM 7.88% vs 6.97%. State the basis (average vs closing equity) in the tooltip.
+- "Other liabilities" includes borrowings, and the asset lines do not sum to total assets.
+- DII + MF shows "+13.8" in one year. Check whether that is points or a relative %.
+- Price history has bad ticks to 0 (Aug 2026). Filter them as in §2.5.
+- Corporate actions show raw Unix timestamps.
+- The dev metrics panel is visible to the public.
+
+---
+
+## 6. Engineering
+
+- Build the design-system primitives first:
+  - layout and data: `Card`, `Kpi`, `MetricRow`, `Verdict`, `Delta`, `SegmentedControl`, `Tabs`, `DataTable`, `Skeleton`;
+  - overlays and menus: `InfoTip`, `Popover`, `Sheet`, `CommandPalette`, `DownloadMenu`;
+  - charts and gauges: `Sparkline`, `ScoreDial`, `PillarLedger`, `BulletBar`.
+  - Use Radix (or shadcn/ui if already present) for accessible overlays.
+- Use one chart theme module that reads colours from the CSS variables, so charts follow the theme and print in the paper palette.
+- Lazy-load below-the-fold sections and memoise table transforms.
+- Use TypeScript strict and no `any` on API data.
+- Keep existing routes and make the page serve a future public route `/stocks/:ticker`.
+- Targets: Lighthouse Performance ≥ 90 and Accessibility ≥ 95 on desktop.
+
+## 7. How to work
+
+1. **Phase 0, audit:** stop and report the stack, the current component tree, the API types and your plan. Wait for my OK.
+2. **Phase 1:** tokens, fonts, theme, primitives.
+3. **Phase 2:** top bar, identity bar, Research Report hero, section nav, notes.
+4. **Phase 3:** price, financials, ratios.
+5. **Phase 4:** ownership, peers, business, dividends, method, Simple/Pro.
+6. **Phase 5:** downloads (PDF layout, offline HTML, CSV).
+7. **Phase 6:** responsive, a11y, loading/empty/error states, both themes, Lighthouse.
+
+After each phase:
+- Run the app and take Playwright screenshots in dark and light at 1440 and 390 (plus the PDF at the end).
+- Compare them against `stock.html` and this brief, and fix anything off.
+- Commit per phase.
+
+Finish with the list of backend and data issues.

@@ -1,0 +1,1437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BPCL Research · FinLit</title>
+<meta name="description" content="FinLit research report for Bharat Petroleum Corporation Ltd (BPCL): research score, pillars, financials, ratios, ownership and peers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+  (function () {
+    var t = null, m = null;
+    try { t = localStorage.getItem("finlit-theme"); m = localStorage.getItem("finlit-mode"); } catch (e) {}
+    if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", t);
+    document.documentElement.setAttribute("data-mode", m || "simple");
+  })();
+</script>
+<style>
+/* Layout concept: a private-bank research note. Compact identity bar, then the Research Report as the hero
+   (engraved score dial · pillar ledger · the read), then evidence sections in order of importance. */
+:root, :root[data-theme="dark"] {
+  --bg: #060D1A; --s1: #0B1526; --s2: #111D33; --s3: #18263F;
+  --border: rgba(201,214,236,.08); --border-strong: rgba(201,214,236,.16); --hairline-gold: rgba(212,175,97,.32);
+  --text: #ECE7DC; --muted: #9CA5B7; --faint: #7C8599;
+  --gold: #D4AF61; --gold-fill: #D4AF61; --gold-hover: #E4C88A; --gold-soft: rgba(212,175,97,.12); --on-gold: #1A1408;
+  --gain: #3DC48F; --loss: #F2796E; --warn: #E9B44C; --info: #86A9EA;
+  --gain-soft: rgba(61,196,143,.12); --loss-soft: rgba(242,121,110,.12);
+  --v-strong: #3DC48F; --v-healthy: #5FB3A1; --v-mixed: #9DB0CB; --v-weak: #F2796E;
+  --c1: #D4AF61; --c2: #7FA6E8; --c3: #5FB3A1; --c4: #B4BAC7; --c5: #B394C4;
+  --ink-line: #ECE7DC;
+  --shadow: inset 0 1px 0 rgba(255,255,255,.045), 0 1px 2px rgba(0,0,0,.35), 0 18px 40px -20px rgba(0,0,0,.6);
+  --card-top: color-mix(in oklab, var(--s1), #fff 2.5%);
+  --glow: rgba(212,175,97,.07);
+  --header: rgba(6,13,26,.8);
+  --grain: 0;
+  color-scheme: dark;
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+:root[data-theme="light"] {
+  --bg: #F5F1E8; --s1: #FFFDF8; --s2: #FAF6EE; --s3: #EEE8DC;
+  --border: #E4DDCF; --border-strong: #CFC6B3; --hairline-gold: rgba(126,93,16,.35);
+  --text: #0B1628; --muted: #4C566A; --faint: #666E7F;
+  --gold: #7E5D10; --gold-fill: #B8913F; --gold-hover: #6F5112; --gold-soft: rgba(126,93,16,.08); --on-gold: #FFFFFF;
+  --gain: #086F4A; --loss: #B5362F; --warn: #875A0C; --info: #2A5DB5;
+  --gain-soft: rgba(8,111,74,.09); --loss-soft: rgba(181,54,47,.08);
+  --v-strong: #086F4A; --v-healthy: #256F61; --v-mixed: #4F6582; --v-weak: #B5362F;
+  --c1: #9C7A2E; --c2: #3E67A8; --c3: #256F61; --c4: #8A919E; --c5: #7E6596;
+  --ink-line: #0B1628;
+  --shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(60,45,20,.06), 0 14px 32px -18px rgba(60,45,20,.2);
+  --card-top: var(--s1);
+  --glow: rgba(184,145,63,.08);
+  --header: rgba(245,241,232,.84);
+  --grain: .035;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 124px; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; color: var(--text); font: 15px/1.6 var(--sans);
+  background: radial-gradient(1200px 520px at 50% -240px, var(--glow), transparent 60%), var(--bg);
+  background-color: var(--bg);
+  font-variant-numeric: tabular-nums lining-nums; -webkit-font-smoothing: antialiased;
+  transition: background-color .2s ease, color .2s ease;
+  overflow-x: hidden;
+}
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: var(--grain); mix-blend-mode: multiply;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+button { font: inherit; color: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+.label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
+.eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: var(--gold); }
+.mono { font-family: var(--mono); }
+.rs { font-size: .62em; color: var(--muted); margin-right: .08em; vertical-align: .32em; font-weight: 500; }
+.unit { font-size: .7em; color: var(--muted); font-weight: 500; margin-left: .15em; }
+.pos { color: var(--gain); } .neg { color: var(--loss); } .muted { color: var(--muted); } .faint { color: var(--faint); }
+.serif { font-family: var(--serif); }
+[hidden] { display: none !important; }
+html[data-mode="simple"] .pro { display: none !important; }
+html[data-mode="pro"] .simple-only { display: none !important; }
+
+/* ---------- Top bar ---------- */
+.top { position: sticky; top: 0; z-index: 40; background: var(--header); backdrop-filter: saturate(140%) blur(14px); -webkit-backdrop-filter: saturate(140%) blur(14px); border-bottom: 1px solid var(--border); padding-top: env(safe-area-inset-top, 0px); }
+.top .wrap { display: flex; align-items: center; gap: 14px; height: 60px; }
+.logo { display: inline-flex; align-items: flex-end; gap: 7px; text-decoration: none; font-family: var(--serif); font-size: 23px; font-weight: 500; letter-spacing: -.01em; line-height: 1; }
+.logo b { color: var(--gold); font-weight: 500; }
+.logo svg { width: 20px; height: 20px; margin-bottom: 2px; }
+.search { flex: 1; max-width: 420px; display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--s1); color: var(--faint); cursor: pointer; min-width: 0; }
+.search:hover { border-color: var(--border-strong); }
+.search span.t { flex: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; }
+.kbd { font: 11px var(--mono); padding: 1px 6px; border: 1px solid var(--border-strong); border-radius: 4px; color: var(--faint); }
+.grow { flex: 1; }
+.seg { display: inline-flex; padding: 3px; border: 1px solid var(--border); border-radius: 8px; background: var(--s1); flex: none; }
+.seg button { border: 0; background: none; padding: 5px 11px; border-radius: 6px; cursor: pointer; color: var(--muted); font-size: 12.5px; font-weight: 500; white-space: nowrap; transition: color .14s, background-color .14s; }
+.seg button:hover { color: var(--text); }
+.seg button[aria-pressed="true"] { background: var(--s3); color: var(--text); box-shadow: inset 0 0 0 1px var(--border-strong); }
+.icon-btn { width: 38px; height: 38px; flex: none; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 8px; background: var(--s1); cursor: pointer; color: var(--muted); transition: color .14s, border-color .14s; }
+.icon-btn:hover { color: var(--text); border-color: var(--border-strong); }
+.icon-btn svg { width: 17px; height: 17px; }
+
+/* ---------- Identity bar ---------- */
+.identity { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 26px 22px; flex-wrap: wrap; }
+.id-left { min-width: 0; }
+.id-left h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(26px, 3vw, 34px); line-height: 1.15; letter-spacing: -.012em; margin: 0 0 8px; text-wrap: balance; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 13px; color: var(--muted); }
+.chips .tick { font-family: var(--mono); color: var(--text); font-weight: 500; letter-spacing: .04em; }
+.chips .sep { width: 3px; height: 3px; border-radius: 50%; background: var(--faint); }
+.id-right { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.quote .px { font-size: 34px; font-weight: 500; letter-spacing: -.02em; line-height: 1.05; }
+.quote .chg { display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 13px; }
+.delta { font-weight: 600; }
+.r52 { width: 150px; }
+.r52 .bar { position: relative; height: 3px; background: var(--s3); border-radius: 2px; margin: 9px 0 6px; }
+.r52 .bar b { position: absolute; top: 50%; width: 9px; height: 9px; border-radius: 50%; background: var(--text); transform: translate(-50%,-50%); box-shadow: 0 0 0 3px var(--bg); }
+.r52 .ends { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--faint); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--border-strong); background: var(--s1); cursor: pointer; font-size: 13.5px; font-weight: 500; white-space: nowrap; transition: background-color .14s, border-color .14s, color .14s; }
+.btn:hover { border-color: var(--gold); }
+.btn svg { width: 16px; height: 16px; }
+.btn.primary { background: var(--gold-fill); border-color: var(--gold-fill); color: var(--on-gold); }
+:root[data-theme="light"] .btn.primary { background: var(--gold); border-color: var(--gold); }
+.btn.primary:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+.btn.on { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); }
+.btn-row { display: flex; gap: 8px; }
+
+/* ---------- Report hero ---------- */
+.report { position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--card-top), var(--s1) 160px); box-shadow: var(--shadow); }
+.report::before { content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px; z-index: 1; transform-origin: center;
+  background: linear-gradient(90deg, transparent, var(--hairline-gold) 18%, var(--gold) 50%, var(--hairline-gold) 82%, transparent); animation: rule .5s ease-out both; }
+@keyframes rule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.report-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 28px 0; flex-wrap: wrap; }
+.report-head .meta { font-size: 12.5px; color: var(--faint); }
+.report-head .meta a { color: var(--gold); text-decoration: none; font-weight: 500; }
+.report-body { display: grid; grid-template-columns: 330px minmax(0, 1.15fr) minmax(0, 1fr); gap: 0; padding: 8px 0 0; }
+.dial-col { padding: 14px 8px 26px 28px; display: flex; flex-direction: column; align-items: center; }
+.dial { width: 296px; height: 248px; position: relative; }
+.dial svg { width: 100%; height: 100%; overflow: visible; }
+.dial .seg-arc { cursor: pointer; transition: opacity .2s, stroke-width .2s; }
+.dial.focus .seg-arc { opacity: .3; }
+.dial.focus .seg-arc.hot { opacity: 1; stroke-width: 7; }
+.dial-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; }
+.dial-center .n { font-family: var(--serif); font-weight: 300; font-size: 72px; line-height: .9; letter-spacing: -.03em; font-variation-settings: "opsz" 72; }
+.dial-center .of { font-size: 12px; color: var(--faint); margin-top: 6px; letter-spacing: .06em; }
+.dial-center .vd { margin-top: 8px; }
+.dial-cap { text-align: center; font-size: 12.5px; color: var(--faint); margin-top: 6px; max-width: 30ch; }
+.vd { display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.vd::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.vd.strong { color: var(--v-strong); } .vd.healthy { color: var(--v-healthy); } .vd.mixed { color: var(--v-mixed); } .vd.weak { color: var(--v-weak); }
+
+.ledger { padding: 16px 24px 24px; border-left: 1px solid var(--border); min-width: 0; }
+.ledger .label { margin-bottom: 6px; display: block; }
+.prow { border-top: 1px solid var(--border); }
+.prow:first-of-type { border-top: 0; }
+.prow > button { all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 42px 110px 14px; gap: 14px; align-items: center; padding: 13px 8px; margin: 0 -8px; border-radius: 8px; cursor: pointer; transition: background-color .14s; width: calc(100% + 16px); }
+.prow > button:hover, .prow.hot > button { background: var(--s2); }
+.prow > button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.pname { font-weight: 600; font-size: 14.5px; display: block; }
+.pev { display: block; font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.pscore { font-family: var(--serif); font-size: 28px; font-weight: 400; text-align: right; line-height: 1; }
+.pbar { display: grid; gap: 7px; }
+.pbar .trk { position: relative; height: 4px; background: var(--s3); border-radius: 2px; overflow: hidden; }
+.pbar .trk b { position: absolute; inset: 0 auto 0 0; border-radius: 2px; transform-origin: left; animation: grow .8s cubic-bezier(.16,1,.3,1) both; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.chev { width: 14px; height: 14px; color: var(--faint); transition: transform .22s cubic-bezier(.2,.7,.2,1); }
+.prow.open .chev { transform: rotate(180deg); }
+.pdetail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .24s cubic-bezier(.2,.7,.2,1); }
+.prow.open .pdetail { grid-template-rows: 1fr; }
+.pdetail > div { overflow: hidden; }
+.pdetail .inner { padding: 2px 0 16px; display: grid; gap: 10px; }
+.pdetail p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.evid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.evid div { padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; background: var(--s2); min-width: 0; }
+.evid .k { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.evid .v { font-size: 15px; font-weight: 500; }
+.evid .c { font-size: 11.5px; color: var(--faint); }
+
+.read { padding: 20px 28px 24px; border-left: 1px solid var(--border); min-width: 0; position: relative; display: flex; flex-direction: column; gap: 16px; }
+.thesis { font-family: var(--serif); font-size: 22px; line-height: 1.32; font-weight: 400; letter-spacing: -.005em; margin: 0; text-wrap: pretty; }
+.know { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.know li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; font-size: 13.5px; color: var(--muted); }
+.know li b { color: var(--text); font-weight: 600; display: block; font-size: 14px; }
+.mark { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; margin-top: 1px; }
+.mark.g { color: var(--gain); background: var(--gain-soft); } .mark.w { color: var(--loss); background: var(--loss-soft); } .mark.n { color: var(--gold); background: var(--gold-soft); }
+.disclaim { font-size: 11.5px; color: var(--faint); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); }
+.watermark { position: absolute; right: -40px; bottom: -50px; width: 260px; height: 260px; opacity: .045; pointer-events: none; color: var(--gold); }
+
+.kpis { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); border-top: 1px solid var(--border); background: color-mix(in oklab, var(--s1), var(--bg) 35%); }
+.kpi { padding: 14px 18px 16px; border-left: 1px solid var(--border); min-width: 0; }
+.kpi:first-child { border-left: 0; }
+.kpi .label { display: flex; align-items: center; gap: 5px; font-size: 10.5px; letter-spacing: .1em; white-space: nowrap; }
+.kpi .v { font-size: 19px; font-weight: 500; margin-top: 3px; white-space: nowrap; }
+.kpi .s { font-size: 11.5px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kpi .s.good { color: var(--gain); }
+
+/* ---------- Section nav ---------- */
+.secnav { position: sticky; top: calc(60px + env(safe-area-inset-top, 0px)); z-index: 30; background: var(--header); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); margin-top: 32px; }
+.secnav .wrap { display: flex; align-items: center; gap: 16px; height: 52px; }
+.mini { display: flex; align-items: center; gap: 10px; font-size: 13px; white-space: nowrap; opacity: 0; transform: translateY(4px); transition: opacity .2s, transform .2s; pointer-events: none; flex: none; }
+.secnav.stuck .mini { opacity: 1; transform: none; }
+.mini .tick { font-family: var(--mono); font-weight: 500; }
+.mini .sc { font-family: var(--serif); font-size: 17px; color: var(--gold); }
+.secnav nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
+.secnav nav::-webkit-scrollbar { display: none; }
+.secnav a { position: relative; flex: none; padding: 15px 12px; color: var(--muted); text-decoration: none; font-size: 13.5px; font-weight: 500; transition: color .14s; }
+.secnav a:hover { color: var(--text); }
+.secnav a.active { color: var(--text); }
+.secnav a.active::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 2px; background: var(--gold); border-radius: 2px; }
+
+/* ---------- Sections ---------- */
+section.block { padding-block: 56px 0; }
+.sec-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 24px; align-items: end; margin-bottom: 22px; }
+.folio { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.folio::before { content: ""; width: 32px; height: 1px; background: var(--gold); }
+.folio span { font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--gold); text-transform: uppercase; }
+h2 { font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.15; margin: 0; letter-spacing: -.01em; }
+.sec-head p { margin: 6px 0 0; color: var(--muted); max-width: 64ch; }
+.card { background: linear-gradient(180deg, var(--card-top), var(--s1) 140px); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; box-shadow: var(--shadow); min-width: 0; }
+.card-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.card-h h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.card-h .s { font-size: 12.5px; color: var(--faint); }
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.span2 { grid-column: span 2; }
+.lede { font-family: var(--serif); font-size: 18px; line-height: 1.45; margin: 0 0 4px; }
+
+/* Notes */
+.notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding: 0; }
+.notes > div { padding: 22px 24px; border-left: 1px solid var(--border); }
+.notes > div:first-child { border-left: 0; }
+.notes h3 { margin: 0 0 14px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+ul.plain li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; font-size: 14px; }
+
+/* Charts */
+.axis text, svg text.ax { fill: var(--faint); font: 11px var(--sans); }
+.gl { stroke: var(--border); }
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.tip { position: absolute; pointer-events: none; z-index: 5; background: var(--s3); border: 1px solid var(--border-strong); border-radius: 8px; padding: 8px 11px; font-size: 12.5px; box-shadow: var(--shadow); white-space: nowrap; transform: translate(-50%, calc(-100% - 12px)); }
+.tip b { display: block; font-size: 15px; font-weight: 600; }
+.legend { display: flex; gap: 6px 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin-top: 12px; align-items: center; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.legend i.ln { height: 2px; border-radius: 1px; vertical-align: 3px; width: 14px; }
+.tools { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+.chart-stat { display: flex; gap: 22px; flex-wrap: wrap; }
+.chart-stat div { font-size: 12px; color: var(--faint); }
+.chart-stat b { display: block; font-size: 15px; color: var(--text); font-weight: 500; }
+
+/* Tables */
+.tw { overflow-x: auto; margin: 0 -24px; padding: 0 24px; position: relative; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.5px; }
+th { text-align: right; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); padding: 10px 12px; white-space: nowrap; border-bottom: 1px solid var(--hairline-gold); }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--s1); z-index: 1; }
+td { padding: 11px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; text-align: right; }
+tr:last-child td { border-bottom: 0; }
+tr.tot td { font-weight: 600; background: var(--s2); }
+tr.tot td:first-child { background: var(--s2); }
+td.latest, th.latest { background: var(--gold-soft); }
+th.latest { color: var(--gold); }
+tr.me td { background: var(--gold-soft); }
+tr.me td:first-child { box-shadow: inset 2px 0 0 var(--gold); background: color-mix(in oklab, var(--s1), var(--gold) 9%); }
+tr.click { cursor: pointer; }
+tr.click:hover td { background: var(--s2); }
+.spk { width: 72px; height: 22px; vertical-align: middle; }
+.flag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--warn); border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; margin-left: 6px; vertical-align: 1px; font-weight: 500; }
+
+/* Metric rows */
+.mrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 12px 0; border-top: 1px solid var(--border); align-items: center; }
+.mrow:first-child { border-top: 0; padding-top: 0; }
+.mrow .k { font-size: 14px; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.mrow .v { font-size: 15px; font-weight: 500; text-align: right; white-space: nowrap; }
+.mrow .d { grid-column: 1 / -1; font-size: 12.5px; color: var(--faint); }
+.bench { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.bench .trk { position: relative; height: 4px; border-radius: 2px; background: var(--s3); }
+.bench .trk b { position: absolute; inset: 0 auto 0 0; border-radius: 2px; background: var(--c2); }
+.bench .trk em { position: absolute; top: -4px; width: 2px; height: 12px; background: var(--text); opacity: .55; border-radius: 1px; }
+.bench .t { font-size: 12px; white-space: nowrap; }
+
+/* Info tips */
+.info { position: relative; display: inline-grid; place-items: center; width: 15px; height: 15px; flex: none; border-radius: 50%; border: 1px solid var(--border-strong); color: var(--faint); font: 600 9.5px/1 var(--serif); font-style: italic; cursor: help; background: none; padding: 0; text-transform: none; letter-spacing: 0; vertical-align: middle; }
+.info:hover, .info:focus-visible, .info[aria-expanded="true"] { color: var(--gold); border-color: var(--gold); }
+.pop { position: fixed; z-index: 70; width: min(300px, calc(100vw - 32px)); padding: 12px 14px; border-radius: 8px; background: var(--s3); border: 1px solid var(--border-strong); box-shadow: 0 18px 40px -16px rgba(0,0,0,.5); color: var(--text); font: 400 13px/1.5 var(--sans); text-align: left; letter-spacing: 0; text-transform: none; }
+.pop b { display: block; font-size: 13.5px; margin-bottom: 3px; }
+.pop .hr { color: var(--muted); margin-top: 6px; }
+.pop .fx { font-family: var(--mono); font-size: 11.5px; color: var(--faint); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+
+/* Returns bars */
+.rrow { display: grid; grid-template-columns: 74px minmax(0, 1fr) 76px; gap: 12px; align-items: center; padding: 6px 0; font-size: 13.5px; }
+.rtrack { position: relative; height: 18px; }
+.rtrack::before { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--border-strong); }
+.rtrack b { position: absolute; top: 4px; height: 10px; border-radius: 2px; }
+.rsi { position: relative; height: 8px; border-radius: 4px; margin: 14px 0 6px; background: linear-gradient(90deg, var(--s3) 0 30%, color-mix(in oklab, var(--s3), var(--text) 6%) 30% 70%, var(--s3) 70%); }
+.rsi::before, .rsi::after { content: ""; position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--border-strong); }
+.rsi::before { left: 30%; } .rsi::after { left: 70%; }
+.rsi i { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; background: var(--text); border: 3px solid var(--s1); transform: translate(-50%, -50%); box-shadow: 0 0 0 1px var(--border-strong); }
+.rsi-scale { position: relative; height: 16px; font-size: 11px; color: var(--faint); }
+.rsi-scale span { position: absolute; transform: translateX(-50%); }
+
+/* Ownership */
+.own-row { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; align-items: center; margin-bottom: 10px; font-size: 13px; }
+.stack { display: flex; height: 30px; border-radius: 4px; overflow: hidden; gap: 2px; }
+.stack span { display: grid; place-items: center; font-size: 11.5px; font-weight: 600; color: #0B1628; white-space: nowrap; overflow: hidden; }
+.own-leg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.own-leg div { padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--s2); }
+.own-leg .v { font-size: 20px; font-weight: 500; margin: 2px 0; }
+.own-leg .c { font-size: 12.5px; font-weight: 600; }
+
+/* Timeline */
+.tl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; }
+.tl::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 1px; background: var(--border-strong); }
+.tl > div { position: relative; padding: 26px 16px 0 0; }
+.tl > div::before { content: ""; position: absolute; left: 0; top: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--s1); border: 2px solid var(--gold); }
+.tl .amt { font-family: var(--serif); font-size: 26px; line-height: 1; }
+.tl .t { font-weight: 600; font-size: 13.5px; margin-top: 6px; }
+.tl .d { font-size: 12.5px; color: var(--faint); }
+
+/* Business */
+.biz { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { font-size: 12.5px; padding: 4px 10px; border: 1px solid var(--border-strong); border-radius: 4px; color: var(--muted); }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; }
+.facts .v { font-size: 15px; font-weight: 500; }
+
+/* Method / quality flags */
+.dq { display: grid; gap: 10px; }
+.dq li { font-size: 13.5px; }
+
+/* Overlays */
+.scrim { position: fixed; inset: 0; background: rgba(3,6,12,.55); z-index: 60; }
+.palette { position: fixed; left: 50%; top: 14vh; transform: translateX(-50%); width: min(580px, calc(100% - 32px)); background: var(--s1); border: 1px solid var(--border-strong); border-radius: 12px; z-index: 61; box-shadow: 0 30px 80px -20px rgba(0,0,0,.6); overflow: hidden; animation: pop .18s ease-out; }
+@keyframes pop { from { opacity: 0; transform: translate(-50%, 6px); } }
+.palette .in { display: flex; align-items: center; gap: 10px; padding: 0 16px; border-bottom: 1px solid var(--border); color: var(--faint); }
+.palette input { flex: 1; border: 0; background: none; color: var(--text); font: 16px var(--sans); padding: 16px 0; outline: none; min-width: 0; }
+.palette ul { list-style: none; margin: 0; padding: 6px; max-height: 340px; overflow-y: auto; }
+.palette li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+.palette li.sel { background: var(--s3); }
+.palette li .tk { font-family: var(--mono); font-size: 12px; color: var(--faint); }
+.palette .hint { padding: 8px 16px; border-top: 1px solid var(--border); font-size: 11.5px; color: var(--faint); }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--s3); border: 1px solid var(--border-strong); border-radius: 8px; padding: 10px 16px; z-index: 80; box-shadow: var(--shadow); font-size: 13.5px; max-width: calc(100vw - 32px); }
+
+.dl { position: relative; }
+.dl-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 45; width: 300px; padding: 6px; background: var(--s1); border: 1px solid var(--border-strong); border-radius: 10px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.55); animation: pop2 .16s ease-out; }
+@keyframes pop2 { from { opacity: 0; transform: translateY(-4px); } }
+.dl-menu button { all: unset; box-sizing: border-box; display: grid; gap: 2px; width: 100%; padding: 10px 12px; border-radius: 6px; cursor: pointer; }
+.dl-menu button:hover, .dl-menu button:focus-visible { background: var(--s3); }
+.dl-menu b { font-size: 13.5px; font-weight: 600; }
+.dl-menu span { font-size: 12px; color: var(--muted); white-space: normal; }
+#printDoc { display: none; }
+footer { margin-top: 80px; border-top: 1px solid var(--border); background: color-mix(in oklab, var(--bg), var(--s1) 50%); }
+.foot-cta { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-block: 40px 32px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.foot-cta h2 { font-size: 28px; }
+.foot-fine { padding-block: 24px calc(32px + env(safe-area-inset-bottom, 0px)); font-size: 12.5px; color: var(--faint); display: grid; gap: 6px; }
+
+.fade { animation: up .4s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes up { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+
+
+/* ---------- Print / PDF research note ---------- */
+@page { size: A4; margin: 14mm 14mm 16mm; }
+@media print {
+  html, body { background: #fff !important; }
+  body::before { display: none; }
+  body > *:not(#printDoc) { display: none !important; }
+  #printDoc { display: block; color: #0B1628; font: 10.5pt/1.5 var(--sans); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.pp { break-after: page; position: relative; }
+.pp:last-child { break-after: auto; }
+.pp-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1.5px solid #B8913F; margin-bottom: 18px; font-size: 8.5pt; color: #4C566A; letter-spacing: .08em; text-transform: uppercase; }
+.pp-head .lg { font-family: var(--serif); font-size: 15pt; letter-spacing: 0; text-transform: none; color: #0B1628; }
+.pp-head .lg b { color: #7E5D10; font-weight: 500; }
+.pp h1 { font-family: var(--serif); font-weight: 400; font-size: 24pt; line-height: 1.1; margin: 0 0 4px; }
+.pp h2 { font-family: var(--serif); font-weight: 400; font-size: 15pt; margin: 0 0 8px; color: #0B1628; }
+.pp h3 { font-size: 8.5pt; text-transform: uppercase; letter-spacing: .12em; color: #7E5D10; margin: 0 0 6px; font-weight: 600; }
+.pp .sub { color: #4C566A; font-size: 9.5pt; }
+.pp .box { border: 1px solid #E4DDCF; border-radius: 6px; padding: 12px 14px; break-inside: avoid; }
+.pp .row { display: grid; gap: 14px; margin-bottom: 14px; }
+.pp .c2 { grid-template-columns: 1fr 1fr; } .pp .c3 { grid-template-columns: 1fr 1fr 1fr; } .pp .c4 { grid-template-columns: repeat(4, 1fr); }
+.pp .cover { display: grid; grid-template-columns: 280px 1fr; gap: 16px; align-items: center; }
+.pp .cover svg { width: 280px; height: 234px; }
+.pp.tight { font-size: 9pt; } .pp.tight .row { gap: 10px; margin-bottom: 10px; } .pp.tight .box { padding: 9px 11px; } .pp.tight td, .pp.tight th { padding: 3px 5px; }
+.pp table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+.pp th { font-size: 7.5pt; text-transform: uppercase; letter-spacing: .08em; color: #4C566A; text-align: right; padding: 4px 6px; border-bottom: 1px solid #B8913F; position: static; background: none; }
+.pp td { text-align: right; padding: 4px 6px; border-bottom: 1px solid #EEE8DC; position: static; background: none; }
+.pp th:first-child, .pp td:first-child { text-align: left; }
+.pp tr.tot td { font-weight: 600; background: #FAF6EE; }
+.pp .pill { display: inline-block; font-size: 7.5pt; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.pp .bar { height: 5px; background: #EEE8DC; border-radius: 3px; overflow: hidden; }
+.pp .bar b { display: block; height: 100%; }
+.pp .kp { border-left: 2px solid #B8913F; padding-left: 8px; }
+.pp .kp .v { font-size: 13pt; font-weight: 500; }
+.pp .kp .k { font-size: 7.5pt; text-transform: uppercase; letter-spacing: .1em; color: #4C566A; }
+.pp .kp .s { font-size: 8pt; color: #666E7F; }
+.pp ul { margin: 0; padding-left: 14px; } .pp li { margin-bottom: 4px; }
+.pp .thesis { font-family: var(--serif); font-size: 13.5pt; line-height: 1.35; margin: 0 0 10px; }
+.pp svg { display: block; width: 100%; }
+.pp .legend { margin-top: 6px; font-size: 8pt; color: #4C566A; }
+.pp .fine { font-size: 7.5pt; color: #666E7F; }
+.pp .pf { margin-top: 16px; padding-top: 6px; border-top: 1px solid #E4DDCF; font-size: 7.5pt; color: #666E7F; display: flex; justify-content: space-between; gap: 12px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1180px) {
+  .report-body { grid-template-columns: 280px minmax(0, 1fr); }
+  .read { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--border); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 32px; }
+  .read .disclaim { grid-column: 1 / -1; }
+  .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .kpi:nth-child(5) { border-left: 0; }
+  .kpi:nth-child(n+5) { border-top: 1px solid var(--border); }
+}
+@media (max-width: 900px) {
+  .g2, .g3, .biz { grid-template-columns: 1fr; }
+  .span2 { grid-column: auto; }
+  .notes { grid-template-columns: 1fr; }
+  .notes > div { border-left: 0; border-top: 1px solid var(--border); }
+  .notes > div:first-child { border-top: 0; }
+  .tl { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 24px; }
+  .tl::before { display: none; }
+  .own-leg { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hide-md { display: none !important; }
+}
+@media (max-width: 720px) {
+  .report-body { grid-template-columns: 1fr; }
+  .dial-col { padding: 10px 20px 18px; }
+  .ledger { border-left: 0; border-top: 1px solid var(--border); padding: 12px 20px 18px; }
+  .read { grid-template-columns: 1fr; padding: 20px; }
+  .report-head { padding: 16px 20px 0; }
+  .search { flex: 0 0 38px; width: 38px; padding: 0; justify-content: center; }
+  .search .t, .search .kbd { display: none; }
+  .r52 { display: none; }
+  .identity { padding-block: 20px 18px; gap: 14px; }
+  .id-right { width: 100%; justify-content: space-between; gap: 12px; }
+  .quote .px { font-size: 30px; }
+  .evid { grid-template-columns: 1fr 1fr; }
+  .prow > button { grid-template-columns: minmax(0, 1fr) 38px 64px 14px; gap: 10px; }
+  .card { padding: 18px 16px; }
+  .tw { margin: 0 -16px; padding: 0 16px; }
+  .mini { display: none; }
+  .hide-sm { display: none !important; }
+  section.block { padding-top: 44px; }
+  .sec-head { grid-template-columns: 1fr; }
+  .sec-head .seg { justify-self: start; max-width: 100%; overflow-x: auto; }
+  h2 { font-size: 26px; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(odd) { border-left: 0; }
+  .kpi:nth-child(even) { border-left: 1px solid var(--border); }
+  .kpi:nth-child(n+3) { border-top: 1px solid var(--border); }
+  .dial { width: 236px; height: 236px; }
+  .dial-center .n { font-size: 72px; }
+  .btn-row .btn span { display: none; }
+  .btn-row .btn { width: 38px; padding: 0; }
+  .tl { grid-template-columns: 1fr; }
+  .own-leg { grid-template-columns: 1fr 1fr; }
+  .top .wrap { gap: 8px; }
+  .seg button { padding: 5px 9px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="FinLit home">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="12" width="3" height="6" rx=".6" fill="var(--c3)"/><rect x="7" y="9" width="3" height="9" rx=".6" fill="var(--c3)"/><rect x="12" y="5" width="3" height="13" rx=".6" fill="var(--c3)"/><path d="M3 9 L8 6 L11 7 L17 2" fill="none" stroke="var(--gold)" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>Fin<b>Lit</b></span>
+    </a>
+    <button class="search" id="openPalette" aria-label="Search stocks">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span class="t">Search company, ticker or ISIN</span><span class="kbd">Ctrl K</span>
+    </button>
+    <div class="grow"></div>
+    <div class="seg hide-sm" role="group" aria-label="Statement type">
+      <button aria-pressed="true" data-stmt="Consolidated">Consolidated</button>
+      <button aria-pressed="false" data-stmt="Standalone">Standalone</button>
+    </div>
+    <div class="seg" role="group" aria-label="Detail level">
+      <button aria-pressed="true" data-mode="simple" title="Key findings with plain-English explanations">Simple</button>
+      <button aria-pressed="false" data-mode="pro" title="Full statements, ratios and indicators">Pro</button>
+    </div>
+    <button class="icon-btn" id="themeBtn" aria-label="Switch to light theme">
+      <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" hidden><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <!-- Identity -->
+    <div class="identity fade">
+      <div class="id-left">
+        <h1>Bharat Petroleum Corporation Ltd</h1>
+        <div class="chips">
+          <span class="tick">BPCL</span><span class="sep"></span><span>NSE</span><span class="sep"></span>
+          <span>Refineries &amp; Marketing</span><span class="sep hide-sm"></span><span class="mono hide-sm" style="font-size:12px">INE029A01011</span>
+        </div>
+      </div>
+      <div class="id-right">
+        <div class="quote">
+          <div class="px"><span class="rs">₹</span>293.45</div>
+          <div class="chg"><span class="delta pos">▲ +4.24 (+1.47%)</span><span class="faint">NSE close · 15 Oct 2026</span></div>
+        </div>
+        <div class="r52" aria-label="52-week range">
+          <div class="label" style="font-size:10px">52-week range</div>
+          <div class="bar"><b id="r52dot"></b></div>
+          <div class="ends"><span id="lo52"></span><span id="hi52"></span></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn primary" id="watchBtn" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg><span>Watchlist</span></button>
+          <div class="dl" id="dl">
+            <button class="btn" id="dlBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="dlMenu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>Download</span></button>
+            <div class="dl-menu" id="dlMenu" role="menu" hidden>
+              <button role="menuitem" data-dl="pdf"><b>Research note (PDF)</b><span>Five-page report with charts, built for reading and printing</span></button>
+              <button role="menuitem" data-dl="html"><b>Offline copy (HTML)</b><span>This interactive page as one file that opens without internet</span></button>
+              <button role="menuitem" data-dl="csv"><b>Data (CSV)</b><span>Statements, ratios and scores for Excel or Sheets</span></button>
+            </div>
+          </div>
+          <button class="btn" id="shareBtn" aria-label="Copy link to this report"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Research report: the hero -->
+    <article class="report fade" id="report" aria-labelledby="reportTitle" style="animation-delay:.05s">
+      <div class="report-head">
+        <div class="eyebrow" id="reportTitle">FinLit Research Report · FY26 · <span id="stmtLabel">Consolidated</span></div>
+        <div class="meta">Updated 15 Oct 2026 · Source: Finedge · <a href="#method">How we score</a></div>
+      </div>
+      <div class="report-body">
+        <div class="dial-col">
+          <div class="dial" id="dial" role="img" aria-label="FinLit research score 61 out of 100, Mixed. Quality 87, Growth 57, Profitability 56, Balance sheet 75, Technical 31."></div>
+          <div class="dial-cap">Equal-weight average of five pillars. Hover a segment to see its evidence.</div>
+        </div>
+        <div class="ledger">
+          <span class="label">Five pillars</span>
+          <div id="ledger"></div>
+        </div>
+        <div class="read">
+          <div>
+            <div class="label" style="margin-bottom:10px">The read</div>
+            <p class="thesis">A highly profitable, cash-rich business priced below its sector, while the share price has been weak for a year.</p>
+          </div>
+          <ul class="know">
+            <li><span class="mark g">✓</span><span><b>Profit is real</b>ROE of 28.5%, and operating cash flow of ₹50,769 Cr was about 2× reported profit.</span></li>
+            <li><span class="mark g">✓</span><span><b>Priced below its sector</b>P/E of 7.3× against 15.5× for the sector, with a 6.0% dividend yield.</span></li>
+            <li><span class="mark w">!</span><span><b>Weak price trend</b>Down 15.4% in a year and 6.9% below its 200-day average. Foreign investors cut 5.25 pts.</span></li>
+          </ul>
+          <div class="disclaim">Research summary, not a recommendation to buy or sell. FinLit Ventures is a technology company and is not registered with SEBI or AMFI.</div>
+          <svg class="watermark" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="12" width="3" height="6" fill="currentColor"/><rect x="7" y="9" width="3" height="9" fill="currentColor"/><rect x="12" y="5" width="3" height="13" fill="currentColor"/><path d="M3 9 L8 6 L11 7 L17 2" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+        </div>
+      </div>
+      <div class="kpis" id="kpis"></div>
+    </article>
+  </div>
+
+  <div class="secnav" id="secnav">
+    <div class="wrap">
+      <div class="mini" aria-hidden="true"><span class="tick">BPCL</span><span>₹293.45</span><span class="pos">+1.47%</span><span class="sc">61</span></div>
+      <nav aria-label="Sections">
+        <a href="#notes">Notes</a><a href="#price">Price</a><a href="#financials">Financials</a><a href="#ratios">Ratios</a>
+        <a href="#ownership">Ownership</a><a href="#peers">Peers</a><a href="#business">Business</a><a href="#dividends">Dividends</a><a href="#method">Method</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- 01 Notes -->
+    <section class="block" id="notes">
+      <div class="sec-head"><div><div class="folio"><span>§ 01</span></div><h2>Research notes</h2><p>What the numbers say, in plain language.</p></div></div>
+      <div class="card notes">
+        <div>
+          <h3><span class="mark g">✓</span>Strengths</h3>
+          <ul class="plain">
+            <li><span class="faint">01</span><span>Cash conversion of 196% means reported profit is fully backed by operating cash.</span></li>
+            <li><span class="faint">02</span><span>Return on equity of 28.5%, among the highest in Indian refining.</span></li>
+            <li><span class="faint">03</span><span>Debt is moderate at 0.43× equity, and interest is covered 8.8 times.</span></li>
+            <li><span class="faint">04</span><span>₹17.50 per share paid in FY26 dividends, a 6.0% yield at today's price.</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3><span class="mark w">!</span>Watch-outs</h3>
+          <ul class="plain">
+            <li><span class="faint">01</span><span>Profits swing with crude prices: net margin fell to 0.4% in FY23 before recovering.</span></li>
+            <li><span class="faint">02</span><span>RSI of 23.4 shows heavy recent selling; price is below both 50- and 200-day averages.</span></li>
+            <li><span class="faint">03</span><span>Foreign investors cut holdings by 5.25 pts and promoters by 1.96 pts over the year.</span></li>
+            <li><span class="faint">04</span><span>Current ratio of 0.79: short-term bills exceed short-term assets, normal for fuel retail.</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3><span class="mark n">§</span>From the model</h3>
+          <ul class="plain">
+            <li><span class="faint">01</span><span>Sales compounded at 11.43% a year from FY21 to FY26.</span></li>
+            <li><span class="faint">02</span><span>Profit compounded at 8.33% over the same period; latest PAT growth was 93.78% off a weak FY25.</span></li>
+            <li><span class="faint">03</span><span>Liabilities stand at 59.71% of assets, a moderate balance-sheet risk level.</span></li>
+            <li><span class="faint">04</span><span>Free cash flow of ₹24,702 Cr covered 96% of net profit.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Price -->
+    <section class="block" id="price">
+      <div class="sec-head"><div><div class="folio"><span>§ 02</span></div><h2>Price &amp; momentum</h2><p>Weekly closes with moving averages. Hover the chart for detail.</p></div></div>
+      <div class="grid g3">
+        <div class="card span2">
+          <div class="tools">
+            <div class="seg" role="group" aria-label="Range" id="rangeSeg">
+              <button aria-pressed="false" data-r="5">1M</button><button aria-pressed="false" data-r="26">6M</button>
+              <button aria-pressed="true" data-r="52">1Y</button><button aria-pressed="false" data-r="156">3Y</button><button aria-pressed="false" data-r="260">5Y</button>
+            </div>
+            <div class="seg pro" role="group" aria-label="Indicators" id="indSeg">
+              <button aria-pressed="false" data-ind="e20">EMA 20</button><button aria-pressed="true" data-ind="e50">EMA 50</button><button aria-pressed="true" data-ind="vol">Volume</button>
+            </div>
+          </div>
+          <div class="chart" id="priceBox"><svg id="priceSvg" role="img"></svg><div class="tip" id="priceTip" hidden></div></div>
+          <div class="legend" id="priceLegend"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Momentum</h3><span class="s">As of 15 Oct 2026</span></div>
+          <div class="label" style="display:flex;gap:6px;align-items:center">RSI (14) <button class="info" data-k="RSI">i</button></div>
+          <div style="display:flex;align-items:baseline;gap:12px;margin-top:4px"><span style="font-family:var(--serif);font-size:40px;line-height:1">23.4</span><span class="vd mixed">Oversold zone</span></div>
+          <div class="rsi" aria-hidden="true"><i style="left:23.41%"></i></div>
+          <div class="rsi-scale"><span style="left:0;transform:none">0</span><span style="left:30%">30</span><span style="left:70%">70</span><span style="right:0;left:auto;transform:none">100</span></div>
+          <div style="margin-top:14px">
+            <div class="mrow"><span class="k">vs 50-day average</span><span class="v neg">▼ −2.90%</span></div>
+            <div class="mrow"><span class="k">vs 200-day average</span><span class="v neg">▼ −6.93%</span></div>
+          </div>
+          <div class="label" style="margin:18px 0 6px">Price return</div>
+          <div id="retBars"></div>
+          <p class="faint" style="font-size:12px;margin:10px 0 0">Dividend-inclusive returns are under review and hidden for now.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 Financials -->
+    <section class="block" id="financials">
+      <div class="sec-head">
+        <div><div class="folio"><span>§ 03</span></div><h2>Financials</h2><p>Six years of consolidated results. Amounts in ₹ crore; L Cr = lakh crore.</p></div>
+        <div class="seg" role="tablist" aria-label="Statement" id="finTabs">
+          <button aria-pressed="true" data-f="pl">Profit &amp; loss</button><button aria-pressed="false" data-f="bs">Balance sheet</button><button aria-pressed="false" data-f="cf">Cash flow</button>
+        </div>
+      </div>
+      <div class="card">
+        <p class="lede" id="finLede"></p>
+        <div class="chart" id="finBox"><svg id="finSvg" role="img"></svg><div class="tip" id="finTip" hidden></div></div>
+        <div class="legend" id="finLegend"></div>
+        <div class="pro" style="margin-top:22px">
+          <div class="tw"><table id="finTable"></table></div>
+        </div>
+        <p class="simple-only faint" style="font-size:12.5px;margin:16px 0 0">Switch to <button class="link-btn" data-goto-pro style="all:unset;color:var(--gold);cursor:pointer;font-weight:500">Pro</button> for the full statement table.</p>
+      </div>
+    </section>
+
+    <!-- 04 Ratios -->
+    <section class="block" id="ratios">
+      <div class="sec-head"><div><div class="folio"><span>§ 04</span></div><h2>Ratios</h2><p>Grouped by pillar. Bars compare BPCL with its sector where a benchmark exists.</p></div></div>
+      <div class="grid g3" id="ratioGroups"></div>
+      <div class="card pro" style="margin-top:16px">
+        <div class="card-h"><h3>Nine-year history</h3><span class="s">FY18 – FY26 · Hover a cell for the year</span></div>
+        <div class="tw"><table id="histTable"></table></div>
+      </div>
+    </section>
+
+    <!-- 05 Ownership -->
+    <section class="block" id="ownership">
+      <div class="sec-head"><div><div class="folio"><span>§ 05</span></div><h2>Ownership</h2><p>Who holds BPCL, and how that changed over the year to September 2026.</p></div></div>
+      <div class="card">
+        <div id="ownBars"></div>
+        <div class="own-leg" id="ownLeg"></div>
+        <p class="faint" style="font-size:12px;margin:14px 0 0">Sep 2025 bar is derived from the reported one-year changes. Institutional holding (FII + DII) is 38.24%.</p>
+      </div>
+    </section>
+
+    <!-- 06 Peers -->
+    <section class="block" id="peers">
+      <div class="sec-head"><div><div class="folio"><span>§ 06</span></div><h2>Peers</h2><p>Indian refining and fuel marketing companies. Select a row to open it.</p></div></div>
+      <div class="card">
+        <div class="tw"><table id="peerTable"></table></div>
+      </div>
+    </section>
+
+    <!-- 07 Business -->
+    <section class="block" id="business">
+      <div class="sec-head"><div><div class="folio"><span>§ 07</span></div><h2>The business</h2></div></div>
+      <div class="card biz">
+        <div>
+          <p class="lede">BPCL refines crude oil and sells the products across India, from petrol pumps and LPG cylinders to lubricants and aviation fuel.</p>
+          <p class="muted" style="margin:10px 0 18px">A holding company headquartered in Mumbai. Its businesses span fuel services, Bharatgas, MAK Lubricants, refineries, gas, industrial &amp; commercial, international trade and proficiency testing. Bharatgas provides end-to-end energy solutions for businesses.</p>
+          <div class="label" style="margin-bottom:8px">Consumer brands</div>
+          <div class="tags"><span class="tag">SmartFleet</span><span class="tag">Speed 97</span><span class="tag">UFill</span><span class="tag">PetroCard</span><span class="tag">SmartDrive</span><span class="tag">Bharatgas</span><span class="tag">MAK Lubricants</span></div>
+        </div>
+        <div class="facts">
+          <div><div class="label">Headquarters</div><div class="v">Mumbai</div></div>
+          <div><div class="label">Employees</div><div class="v">8,713</div></div>
+          <div><div class="label">Industry</div><div class="v">Petroleum products</div></div>
+          <div><div class="label">Shares outstanding</div><div class="v">427.3 Cr</div></div>
+          <div><div class="label">Face value</div><div class="v">₹10</div></div>
+          <div><div class="label">ISIN</div><div class="v mono" style="font-size:13.5px">INE029A01011</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 Dividends -->
+    <section class="block" id="dividends">
+      <div class="sec-head"><div><div class="folio"><span>§ 08</span></div><h2>Dividends</h2><p>The four most recent payouts, ₹ per share.</p></div></div>
+      <div class="card"><div class="tl" id="timeline"></div></div>
+    </section>
+
+    <!-- 09 Method -->
+    <section class="block" id="method">
+      <div class="sec-head"><div><div class="folio"><span>§ 09</span></div><h2>Method &amp; data</h2></div></div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="card-h"><h3>How the FinLit score works</h3></div>
+          <p class="muted" style="margin:0 0 12px">Each pillar is scored 0–100 from the company's own statements, ratios and price history. The research score is their equal-weight average: (87 + 57 + 56 + 75 + 31) ÷ 5 = 61.</p>
+          <div class="mrow"><span class="k"><span class="vd strong">Strong</span></span><span class="v">80 and above</span></div>
+          <div class="mrow"><span class="k"><span class="vd healthy">Healthy</span></span><span class="v">65 – 79</span></div>
+          <div class="mrow"><span class="k"><span class="vd mixed">Mixed</span></span><span class="v">45 – 64</span></div>
+          <div class="mrow"><span class="k"><span class="vd weak">Weak</span></span><span class="v">Below 45</span></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Data notes</h3><span class="s">Source: Finedge · Consolidated · FY = April–March</span></div>
+          <ul class="plain dq">
+            <li><span class="mark w">!</span><span>Dividend return shows 89.14% for every period from 3 months to 5 years; it is hidden until corrected.</span></li>
+            <li><span class="mark w">!</span><span>1-year return appears as −15.41% and −16.2% in different feeds. This page uses −15.41%.</span></li>
+            <li><span class="mark w">!</span><span>Dividend payout appears as 81.42% and 38%. Dividends declared in FY26 (₹17.50) over EPS ₹59.57 give 29%. This page shows the source 38% until the feed is reconciled.</span></li>
+            <li><span class="mark w">!</span><span>DII + mutual fund holding is reported as +13.8 over one year, unusually large. It may be a relative change rather than points; the Sep 2025 bar should be treated as indicative.</span></li>
+            <li><span class="mark w">!</span><span>Interest coverage appears as 8.38× and 8.78×. This page uses 8.78× (EBIT ÷ interest, FY26).</span></li>
+            <li class="pro"><span class="mark n">i</span><span>Price history on this prototype is illustrative and anchored to the reported 1-, 3- and 5-year returns.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-cta"><h2>Have a question about your portfolio?</h2><a class="btn primary" href="#" id="contactBtn">Get in touch</a></div>
+      <div class="foot-fine">
+        <span>FinLit Ventures · Investment research across Indian and global markets.</span>
+        <span>FinLit Ventures is a technology company and is not registered with SEBI or AMFI. Research shown here is for information and is not investment advice.</span>
+        <span>© 2026 FinLit. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<div id="printDoc" aria-hidden="true"></div>
+<div class="scrim" id="scrim" hidden></div>
+<div class="palette" id="palette" role="dialog" aria-label="Search stocks" hidden>
+  <div class="in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="palInput" placeholder="Search company, ticker or ISIN" autocomplete="off" aria-controls="palList"></div>
+  <ul id="palList" role="listbox"></ul>
+  <div class="hint">↑ ↓ to move · Enter to open · Esc to close</div>
+</div>
+<div class="pop" id="pop" role="tooltip" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const NS = "http://www.w3.org/2000/svg";
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const MINUS = "−";
+const nf = (n, d = 2) => Math.abs(n).toLocaleString("en-IN", { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (n, d = 2) => (n < 0 ? MINUS : "") + nf(n, d);
+const pct = (n, d = 2) => num(n, d) + "%";
+const signed = (n, d = 2, u = "%") => (n > 0 ? "▲ +" : n < 0 ? "▼ " + MINUS : "") + nf(n, d) + u;
+const cr = (n) => Math.abs(n) >= 100000 ? (n < 0 ? MINUS : "") + nf(n / 100000, 2) + " L" : num(n, 0);
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------------- Data (BPCL, consolidated) ---------------- */
+const PILLARS = [
+  { key: "quality", n: "Quality", s: 87, v: "strong", vt: "Strong", line: "High return on shareholders' money, and profit is fully backed by cash.",
+    ev: [["ROE", "28.47%", "Above 15% is strong"], ["ROCE", "17.30%", "Comfortably above cost of debt"], ["CFO / PAT", "196.45%", "Cash ≈ 2× profit"]] },
+  { key: "growth", n: "Growth", s: 57, v: "mixed", vt: "Mixed", line: "Sales grew 11.4% a year over five years; profit grew more slowly and unevenly.",
+    ev: [["5Y sales CAGR", "11.43%", "FY21 → FY26"], ["5Y profit CAGR", "8.33%", "FY21 → FY26"], ["Latest sales growth", "4.46%", "FY26 vs FY25"]] },
+  { key: "profit", n: "Profitability", s: 56, v: "mixed", vt: "Mixed", line: "Thin margins typical of fuel retail: about ₹7.90 operating profit per ₹100 of sales.",
+    ev: [["Operating margin", "7.88%", "FY26"], ["Net margin", "4.94%", "FY26"], ["Asset turnover", "2.24×", "Sales ÷ assets"]] },
+  { key: "balance", n: "Balance sheet", s: 75, v: "healthy", vt: "Healthy", line: "Borrowings are 0.43× equity and interest is covered about 8.8 times.",
+    ev: [["Debt / equity", "0.43×", "Below 0.5 is conservative"], ["Liabilities / assets", "59.71%", "FY26"], ["Operating cash flow", "₹50,769 Cr", "Record high"]] },
+  { key: "tech", n: "Technical", s: 31, v: "weak", vt: "Weak", line: "Trading below its long-term average; RSI of 23 shows heavy recent selling.",
+    ev: [["1Y price return", MINUS + "15.41%", "Trailing year"], ["RSI (14)", "23.41", "Below 30 = oversold"], ["vs 200-day avg", MINUS + "6.93%", "Below trend"]] },
+];
+const KPIS = [
+  ["Market cap", "<span class='rs'>₹</span>1.27<span class='unit'>L Cr</span>", "₹1,27,313 Cr", "Market cap"],
+  ["P/E", "7.32<span class='unit'>×</span>", "Sector 15.49×", "P/E", true],
+  ["P/B", "1.25<span class='unit'>×</span>", "Sector 1.44×", "P/B", true],
+  ["EV / EBITDA", "4.81<span class='unit'>×</span>", "Sector 7.23×", "EV/EBITDA", true],
+  ["Div. yield", "5.96<span class='unit'>%</span>", "₹17.50 in FY26", "Dividend yield"],
+  ["ROE", "28.47<span class='unit'>%</span>", "FY26", "ROE"],
+  ["ROCE", "17.30<span class='unit'>%</span>", "FY26", "ROCE"],
+  ["Debt / equity", "0.43<span class='unit'>×</span>", "Conservative", "D/E"],
+];
+const YRS = ["FY21", "FY22", "FY23", "FY24", "FY25", "FY26"];
+const PL = {
+  "Revenue": [304000, 433000, 534000, 507000, 501000, 523000],
+  "Expenses": [283000, 413000, 523000, 463000, 475000, 482000],
+  "Operating profit": [21296.37, 19137.3, 10888.11, 44082.03, 25401.38, 41202.17],
+  "Other income": [1927.51, 3804.27, 3690.14, 3300.26, 4007.46, 4809.63],
+  "Interest": [1723.41, 2605.64, 3745.38, 4148.89, 3591.44, 2953.49],
+  "Depreciation": [4334.21, 5434.35, 6368.82, 6771.26, 7256.69, 7856.37],
+  "Profit before tax": [22432.02, 16036.73, 2821.13, 36194.44, 18182.3, 34791.24],
+  "Exceptional items": [5265.76, 1135.15, -1642.92, -267.7, -378.41, -410.7],
+  "Tax": [5112.19, 4355.23, 690.08, 9335.6, 4845.75, 8947.79],
+  "Net profit": [17319.83, 11681.5, 2131.05, 26858.84, 13336.55, 25843.45],
+  "EPS (₹)": [37.26, 26.93, 4.91, 61.91, 30.74, 59.57],
+};
+const BS = {
+  "Equity capital": [2092.91, 2129.45, 2129.45, 2136.29, 4272.58, 4272.58],
+  "Reserves": [51462.17, 49776.17, 51392.91, 73498.82, 77111.5, 95897.68],
+  "Borrowings": [47588.06, 55932.68, 60454.61, 45484.93, 51060.91, 43481.91],
+  "Other liabilities": [107000, 136000, 135000, 127000, 137000, 148000],
+  "Total liabilities": [161000, 188000, 188000, 202000, 218000, 249000],
+  "Fixed assets": [63588.84, 81507.26, 84464.8, 84718.04, 86593.79, 91701.09],
+  "CWIP": [7645.42, 4979.89, 5645.05, 8679.72, 13240.29, 16394.07],
+  "Investments": [6794.27, 4442.27, 4277.14, 4290.67, 3663.07, 2408.06],
+  "Other assets": [51960.99, 61986.7, 55996.13, 65651.69, 72799.91, 83665.44],
+  "Total assets": [161000, 188000, 188000, 202000, 218000, 249000],
+};
+const CF_YRS = ["FY22", "FY23", "FY24", "FY25", "FY26"];
+const CF = {
+  "Operating": [20335.63, 12465.6, 35935.9, 23677.79, 50768.99],
+  "Investing": [-8137.57, -7806.41, -10520.58, -19179.99, -26067.23],
+  "Financing": [-17671.68, -4402.01, -25427.3, -6240.61, -24939.7],
+  "Net cash flow": [-5473.62, 257.18, -11.98, -1742.81, -237.94],
+};
+const HYRS = ["FY18", "FY19", "FY20", "FY21", "FY22", "FY23", "FY24", "FY25", "FY26"];
+const HIST = {
+  "Gross margin": [28.1, 23.85, 23.86, 38.86, 30.23, 19.03, 26.14, 23.43, 27.93],
+  "Operating margin": [5.01, 4, 1.87, 6.27, 3.67, 1.12, 7.77, 4.14, 6.97],
+  "Net margin": [3.2, 2.28, 0.92, 5.27, 2.69, 0.4, 5.27, 2.65, 4.91],
+  "Return on equity": [null, 20.13, 8.36, 30.18, 22.51, 3.98, 35.51, 16.39, 25.8],
+  "Return on capital": [null, 16.38, 5.39, 23.53, 16.38, 3.86, 32.32, 16.01, 25.31],
+};
+const RATIO_GROUPS = [
+  { t: "Valuation", p: "vs sector", rows: [["P/E", 7.32, "×", 15.49, true], ["P/B", 1.25, "×", 1.44, true], ["EV/EBITDA", 4.81, "×", 7.23, true], ["Dividend yield", 5.96, "%"]] },
+  { t: "Quality & returns", p: "Quality 87", rows: [["ROE", 28.47, "%"], ["ROCE", 17.3, "%"], ["CFO/PAT", 196.45, "%"], ["FCF / PAT", 95.58, "%", null, false, true]] },
+  { t: "Growth", p: "Growth 57", rows: [["5Y sales CAGR", 11.43, "%"], ["5Y EBIT CAGR", 14.11, "%", null, false, true], ["5Y profit CAGR", 8.33, "%", null, false, true], ["Assets growth", 13.84, "%", null, false, true]] },
+  { t: "Profitability", p: "Profitability 56", rows: [["OPM", 7.88, "%"], ["Net margin", 4.94, "%"], ["EBITDA margin", 8.38, "%", null, false, true], ["Effective tax rate", 25.39, "%", null, false, true]] },
+  { t: "Balance sheet", p: "Balance sheet 75", rows: [["D/E", 0.43, "×"], ["Interest coverage", 8.78, "×"], ["Current ratio", 0.79, "×"], ["Quick ratio", 0.29, "×", 0.47, false, true], ["Total debt / FCF", 1.38, "×", null, false, true]] },
+  { t: "Shareholder returns", p: "Payout", rows: [["Dividend payout", 38, "%"], ["Retention ratio", 62, "%", null, false, true], ["Debtor days", 3, " days", null, false, true], ["Inventory days", 45, " days", null, false, true]] },
+];
+const PEERS = [
+  ["Bharat Petroleum", "BPCL", 127313.45, true],
+  ["Reliance Industries", "RELIANCE", 1655436],
+  ["Indian Oil Corporation", "IOC", 181529],
+  ["Hindustan Petroleum", "HINDPETRO", 74133.3],
+  ["Mangalore Refinery & Petrochemicals", "MRPL", 30547.8],
+  ["Chennai Petroleum", "CHENNPETRO", 21510.2],
+];
+const DIVS = [["₹10.00", "Interim dividend", "2 Feb 2026"], ["₹7.50", "Interim dividend", "7 Nov 2025"], ["₹5.00", "Final dividend", "31 Jul 2025"], ["₹5.00", "Interim dividend", "29 Jan 2025"]];
+const RET = [["1 month", -5.02], ["3 months", -6.71], ["6 months", -1.6], ["1 year", -15.41], ["2 years", -21.83], ["3 years", 62.81], ["5 years", 17.76]];
+const GLOSS = {
+  "Market cap": ["Market capitalisation", "The value of all the company's shares at today's price.", "Size, not quality. BPCL is a large-cap.", "Price × shares outstanding"],
+  "P/E": ["Price to earnings", "Share price ÷ yearly profit per share.", "Lower means you pay less per ₹1 of profit. Compare with the sector; a low P/E can also mean slow growth is expected.", "Price ÷ EPS"],
+  "P/B": ["Price to book", "Price ÷ net assets (book value) per share.", "Below 1× means price is under book value. Most useful for asset-heavy firms like refiners.", "Price ÷ book value per share"],
+  "EV/EBITDA": ["EV / EBITDA", "Value of the whole business, debt included, ÷ operating profit before depreciation.", "Lower is cheaper. Fairer than P/E across firms with different debt.", "(Market cap + debt − cash) ÷ EBITDA"],
+  "Dividend yield": ["Dividend yield", "Last 12 months' dividends ÷ today's price.", "A high yield can come from a falling price; check the payout is sustainable.", "Dividends per share ÷ price"],
+  "ROE": ["Return on equity", "Profit earned per ₹100 of shareholders' money.", "Above 15% is generally strong. Check it isn't driven by debt.", "Net profit ÷ average equity"],
+  "ROCE": ["Return on capital employed", "Operating profit per ₹100 of all capital, equity plus debt.", "Should comfortably beat the cost of borrowing; above 15% is good.", "EBIT ÷ (equity + debt)"],
+  "CFO/PAT": ["Cash conversion", "Operating cash flow ÷ reported profit.", "100% or more means profit turned into cash. Below 70% for years is a warning.", "Cash from operations ÷ net profit"],
+  "D/E": ["Debt to equity", "Borrowings per ₹1 of shareholders' equity.", "Below 0.5 is conservative; above 1 is heavily borrowed (banks excepted).", "Total debt ÷ equity"],
+  "Current ratio": ["Current ratio", "Short-term assets ÷ short-term bills.", "Above 1 is comfortable. Fuel retailers often run below 1 because customers pay instantly.", "Current assets ÷ current liabilities"],
+  "RSI": ["RSI (14)", "Speed of recent price moves on a 0–100 scale.", "Below 30 means heavy selling, above 70 heavy buying. Not a buy or sell signal on its own.", "100 − 100 ÷ (1 + avg gain ÷ avg loss)"],
+  "OPM": ["Operating margin", "Operating profit per ₹100 of sales.", "Compare only within the industry. Single digits are normal for refiners.", "Operating profit ÷ revenue"],
+  "Interest coverage": ["Interest coverage", "How many times operating profit covers interest.", "Above 3× is comfortable; below 1.5× is strain.", "EBIT ÷ interest"],
+  "Net margin": ["Net margin", "Net profit per ₹100 of sales.", "Thin margins magnify the effect of crude price swings.", "Net profit ÷ revenue"],
+  "5Y sales CAGR": ["5-year sales growth", "Average yearly sales growth over five years.", "Above inflation plus GDP (~10–11% nominal) is healthy for a mature business.", "(Sales FY26 ÷ sales FY21)^(1/5) − 1"],
+  "Dividend payout": ["Dividend payout", "Share of profit paid out as dividends.", "30–50% balances income with reinvestment.", "Dividends ÷ net profit"],
+};
+
+/* ---------------- Formatting helpers ---------------- */
+function el(tag, attrs, parent) { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; }
+const infoBtn = (k) => GLOSS[k] ? `<button class="info" data-k="${k}" aria-label="What is ${GLOSS[k][0]}?">i</button>` : "";
+
+/* ---------------- Theme & mode ---------------- */
+function syncThemeIcon() {
+  const light = document.documentElement.dataset.theme === "light";
+  $("#sunIcon").hidden = light; $("#moonIcon").hidden = !light;
+  $("#themeBtn").setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme");
+}
+$("#themeBtn").addEventListener("click", () => {
+  const t = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem("finlit-theme", t); } catch (e) {}
+  syncThemeIcon(); drawCharts(false);
+});
+function setMode(m) {
+  document.documentElement.dataset.mode = m;
+  $$("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.mode === m));
+  try { localStorage.setItem("finlit-mode", m); } catch (e) {}
+  drawFinTable();
+}
+$$("[data-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
+$$("[data-goto-pro]").forEach((b) => b.addEventListener("click", () => { setMode("pro"); toast("Pro view on: full statements, ratio history and chart indicators."); }));
+$$("[data-stmt]").forEach((b) => b.addEventListener("click", () => {
+  $$("[data-stmt]").forEach((x) => x.setAttribute("aria-pressed", x === b));
+  $("#stmtLabel").textContent = b.dataset.stmt;
+  toast(b.dataset.stmt === "Standalone" ? "Standalone figures load from the API in the full build; showing consolidated." : "Showing consolidated figures.");
+}));
+
+let tt;
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => (t.hidden = true), 3000); }
+$("#watchBtn").addEventListener("click", function () {
+  const on = this.getAttribute("aria-pressed") !== "true";
+  this.setAttribute("aria-pressed", on); this.classList.toggle("primary", !on); this.classList.toggle("on", on);
+  $("span", this).textContent = on ? "Watching" : "Watchlist";
+  try { localStorage.setItem("finlit-watch-BPCL", on ? "1" : ""); } catch (e) {}
+  toast(on ? "BPCL added to your watchlist." : "BPCL removed from your watchlist.");
+});
+try { if (localStorage.getItem("finlit-watch-BPCL")) $("#watchBtn").click(), clearTimeout(tt), ($("#toast").hidden = true); } catch (e) {}
+$("#shareBtn").addEventListener("click", () => {
+  const url = location.href.split("#")[0] + "#report";
+  const done = () => toast("Link to this report copied.");
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => toast(url)); else toast(url);
+});
+$("#contactBtn").addEventListener("click", (e) => { e.preventDefault(); toast("The contact form opens here on finlitventures.com."); });
+
+/* ---------------- Info popovers (hover, focus and tap) ---------------- */
+const pop = $("#pop"); let popFor = null;
+function showPop(btn) {
+  const g = GLOSS[btn.dataset.k]; if (!g) return;
+  pop.innerHTML = `<b>${g[0]}</b>${g[1]}<div class="hr">${g[2]}</div><div class="fx">${g[3]}</div>`;
+  pop.hidden = false;
+  const r = btn.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight;
+  let left = Math.min(Math.max(16, r.left + r.width / 2 - pw / 2), innerWidth - pw - 16);
+  let top = r.top - ph - 10; if (top < 70) top = r.bottom + 10;
+  pop.style.left = left + "px"; pop.style.top = top + "px";
+  if (popFor && popFor !== btn) popFor.setAttribute("aria-expanded", "false");
+  popFor = btn; btn.setAttribute("aria-expanded", "true");
+}
+function hidePop() { pop.hidden = true; if (popFor) popFor.setAttribute("aria-expanded", "false"); popFor = null; }
+document.addEventListener("mouseover", (e) => { const b = e.target.closest(".info"); if (b) showPop(b); });
+document.addEventListener("mouseout", (e) => { if (e.target.closest(".info")) hidePop(); });
+document.addEventListener("focusin", (e) => { const b = e.target.closest(".info"); if (b) showPop(b); else if (popFor) hidePop(); });
+document.addEventListener("click", (e) => { const b = e.target.closest(".info"); if (b) { e.stopPropagation(); popFor === b && !pop.hidden ? hidePop() : showPop(b); } else hidePop(); }, true);
+addEventListener("scroll", () => { if (popFor) hidePop(); }, { passive: true });
+
+/* ---------------- Search palette ---------------- */
+const UNIVERSE = [["Bharat Petroleum Corporation Ltd", "BPCL"], ["Indian Oil Corporation Ltd", "IOC"], ["Hindustan Petroleum Corporation Ltd", "HINDPETRO"], ["Reliance Industries Ltd", "RELIANCE"], ["Mangalore Refinery & Petrochemicals Ltd", "MRPL"], ["Chennai Petroleum Corporation Ltd", "CHENNPETRO"], ["Oil & Natural Gas Corporation Ltd", "ONGC"], ["HDFC Bank Ltd", "HDFCBANK"], ["Larsen & Toubro Ltd", "LT"], ["Maruti Suzuki India Ltd", "MARUTI"], ["Kotak Mahindra Bank Ltd", "KOTAKBANK"], ["Jio Financial Services Ltd", "JIOFIN"]];
+let palSel = 0, lastFocus = null;
+function palItems() { const q = $("#palInput").value.trim().toLowerCase(); return UNIVERSE.filter(([n, t]) => (n + " " + t).toLowerCase().includes(q)); }
+function renderPal() {
+  const items = palItems(); palSel = Math.min(palSel, Math.max(items.length - 1, 0));
+  $("#palList").innerHTML = items.length ? items.map(([n, t], i) => `<li role="option" id="opt${i}" aria-selected="${i === palSel}" class="${i === palSel ? "sel" : ""}" data-t="${t}"><span>${n}</span><span class="tk">${t}</span></li>`).join("") : `<li aria-disabled="true"><span class="muted">No match. Try a ticker such as BPCL or IOC.</span></li>`;
+  $("#palInput").setAttribute("aria-activedescendant", items.length ? "opt" + palSel : "");
+}
+function openPal() { lastFocus = document.activeElement; $("#scrim").hidden = false; $("#palette").hidden = false; $("#palInput").value = ""; palSel = 0; renderPal(); $("#palInput").focus(); }
+function closePal() { $("#scrim").hidden = true; $("#palette").hidden = true; if (lastFocus) lastFocus.focus(); }
+function pick(t) { closePal(); toast(t === "BPCL" ? "You're on BPCL." : `${t} opens here in the full build.`); }
+$("#openPalette").addEventListener("click", openPal);
+$("#scrim").addEventListener("click", closePal);
+$("#palInput").addEventListener("input", () => { palSel = 0; renderPal(); });
+$("#palList").addEventListener("click", (e) => { const li = e.target.closest("[data-t]"); if (li) pick(li.dataset.t); });
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPal(); return; }
+  if (e.key === "/" && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); openPal(); return; }
+  if (e.key === "Escape") { if (!$("#palette").hidden) closePal(); hidePop(); }
+  if ($("#palette").hidden) return;
+  const n = palItems().length;
+  if (e.key === "ArrowDown") { palSel = Math.min(palSel + 1, n - 1); renderPal(); e.preventDefault(); }
+  if (e.key === "ArrowUp") { palSel = Math.max(palSel - 1, 0); renderPal(); e.preventDefault(); }
+  if (e.key === "Enter") { const li = $("#palList .sel"); if (li) pick(li.dataset.t); }
+});
+
+/* ---------------- Price series (illustrative, anchored to reported returns) ---------------- */
+const PRICES = (() => {
+  const last = 293.45, anchors = [[0, last / 1.1776], [104, last / 1.6281], [207, last / 0.8459], [259, last]];
+  let seed = 11; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647) - 0.5;
+  const out = [];
+  for (let a = 0; a < anchors.length - 1; a++) {
+    const [i0, p0] = anchors[a], [i1, p1] = anchors[a + 1]; const noise = []; let w = 0;
+    for (let i = i0; i <= i1; i++) { w += rnd() * 0.045; noise.push(w); }
+    const end = noise[noise.length - 1];
+    for (let i = i0; i <= i1; i++) { if (a && i === i0) continue; const t = (i - i0) / (i1 - i0); out.push(Math.exp(Math.log(p0) + (Math.log(p1) - Math.log(p0)) * t + noise[i - i0] - end * t)); }
+  }
+  const start = new Date(2021, 9, 22);
+  return out.map((p, i) => ({ d: new Date(start.getTime() + i * 6048e5), p, v: 3 + Math.abs(rnd()) * 9 + Math.abs(rnd()) * 6 }));
+})();
+const ema = (a, n) => { const k = 2 / (n + 1); let e = a[0]; return a.map((x) => (e = x * k + e * (1 - k))); };
+const E20 = ema(PRICES.map((x) => x.p), 20), E50 = ema(PRICES.map((x) => x.p), 50);
+{
+  const yr = PRICES.slice(-52).map((x) => x.p), lo = Math.min(...yr), hi = Math.max(...yr);
+  $("#lo52").textContent = "₹" + nf(lo, 0); $("#hi52").textContent = "₹" + nf(hi, 0);
+  $("#r52dot").style.left = ((293.45 - lo) / (hi - lo)) * 100 + "%";
+}
+
+/* ---------------- Report: dial + ledger ---------------- */
+const VCOL = { strong: "--v-strong", healthy: "--v-healthy", mixed: "--v-mixed", weak: "--v-weak" };
+function polar(cx, cy, r, deg) { const a = (deg - 90) * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
+function arcPath(cx, cy, r, a0, a1) { const [x0, y0] = polar(cx, cy, r, a0), [x1, y1] = polar(cx, cy, r, a1); return `M${x0.toFixed(2)},${y0.toFixed(2)} A${r},${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(2)},${y1.toFixed(2)}`; }
+function drawDial(animate) {
+  const host = $("#dial"); host.innerHTML = "";
+  const svg = el("svg", { viewBox: "-46 -14 392 328", "aria-hidden": "true" }, host);
+  const C = 150;
+  // engraved ticks
+  for (let i = 0; i < 100; i++) {
+    const major = i % 25 === 0, mid = i % 5 === 0;
+    const [x0, y0] = polar(C, C, 98, i * 3.6), [x1, y1] = polar(C, C, major ? 88 : mid ? 92 : 94.5, i * 3.6);
+    el("line", { x1: x0, y1: y0, x2: x1, y2: y1, stroke: css(major ? "--muted" : "--faint"), "stroke-width": major ? 1.4 : 1, opacity: major ? .9 : mid ? .6 : .35 }, svg);
+  }
+  // composite arc
+  el("circle", { cx: C, cy: C, r: 104, fill: "none", stroke: css("--border-strong"), "stroke-width": 1 }, svg);
+  const comp = el("path", { d: arcPath(C, C, 104, 0.01, 61 * 3.6), fill: "none", stroke: css("--gold"), "stroke-width": 3, "stroke-linecap": "round" }, svg);
+  const [ex, ey] = polar(C, C, 104, 61 * 3.6);
+  const knob = el("circle", { cx: ex, cy: ey, r: 4.5, fill: css("--gold"), stroke: css("--s1"), "stroke-width": 2 }, svg);
+  // pillar segments
+  const segSpan = 72, gap = 5;
+  PILLARS.forEach((p, i) => {
+    const a0 = i * segSpan + gap / 2, a1 = (i + 1) * segSpan - gap / 2, af = a0 + (a1 - a0) * p.s / 100;
+    el("path", { d: arcPath(C, C, 124, a0, a1), fill: "none", stroke: css("--s3"), "stroke-width": 5, "stroke-linecap": "round" }, svg);
+    const seg = el("path", { d: arcPath(C, C, 124, a0, af), fill: "none", stroke: css(VCOL[p.v]), "stroke-width": 5, "stroke-linecap": "round", class: "seg-arc", "data-p": p.key }, svg);
+    const len = seg.getTotalLength();
+    if (animate && !reduced) { seg.style.strokeDasharray = len; seg.style.strokeDashoffset = len; seg.style.transition = `stroke-dashoffset .8s cubic-bezier(.16,1,.3,1) ${.35 + i * .07}s`; requestAnimationFrame(() => requestAnimationFrame(() => (seg.style.strokeDashoffset = 0))); }
+    const mid = (a0 + a1) / 2, [lx, ly] = polar(C, C, 145, mid);
+    const t = el("text", { x: lx, y: ly + 3.5, "text-anchor": mid > 20 && mid < 160 ? "start" : mid > 200 && mid < 340 ? "end" : "middle", fill: css("--muted"), "font-size": 10, "font-family": "IBM Plex Sans, sans-serif", "font-weight": 600, "letter-spacing": ".08em" }, svg);
+    t.textContent = p.n.toUpperCase().replace("BALANCE SHEET", "BALANCE") + " " + p.s;
+    seg.addEventListener("mouseenter", () => hot(p.key)); seg.addEventListener("mouseleave", () => hot(null));
+    seg.addEventListener("click", () => openRow(p.key, true));
+  });
+  const center = document.createElement("div"); center.className = "dial-center";
+  center.innerHTML = `<div class="n" id="scoreN">${animate && !reduced ? 0 : 61}</div><div class="of">OUT OF 100</div><div class="vd mixed">Mixed</div>`;
+  host.appendChild(center);
+  if (animate && !reduced) {
+    const len = comp.getTotalLength(); comp.style.strokeDasharray = len; comp.style.strokeDashoffset = len; knob.style.opacity = 0;
+    comp.style.transition = "stroke-dashoffset .9s cubic-bezier(.16,1,.3,1) .25s"; knob.style.transition = "opacity .3s ease 1s";
+    requestAnimationFrame(() => requestAnimationFrame(() => { comp.style.strokeDashoffset = 0; knob.style.opacity = 1; }));
+    const t0 = performance.now() + 250, n = $("#scoreN");
+    const step = (now) => { const k = Math.min(1, Math.max(0, (now - t0) / 900)); n.textContent = Math.round(61 * (1 - Math.pow(1 - k, 4))); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+}
+function hot(key) {
+  $("#dial").classList.toggle("focus", !!key);
+  $$(".seg-arc").forEach((s) => s.classList.toggle("hot", s.dataset.p === key));
+  $$(".prow").forEach((r) => r.classList.toggle("hot", r.dataset.p === key));
+}
+function openRow(key, scroll) {
+  $$(".prow").forEach((r) => {
+    const open = r.dataset.p === key ? !r.classList.contains("open") : false;
+    r.classList.toggle("open", open); $("button", r).setAttribute("aria-expanded", open);
+  });
+  if (scroll && innerWidth < 720) $(`.prow[data-p="${key}"]`).scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+}
+$("#ledger").innerHTML = PILLARS.map((p, i) => `
+  <div class="prow" data-p="${p.key}">
+    <button aria-expanded="false" aria-controls="pd-${p.key}">
+      <span style="min-width:0"><span class="pname">${p.n}</span><span class="pev">${p.ev.map((e) => e[0] + " " + e[1]).join(" · ")}</span></span>
+      <span class="pscore">${p.s}</span>
+      <span class="pbar"><span class="trk"><b style="width:${p.s}%;background:var(${VCOL[p.v]});animation-delay:${.35 + i * .07}s"></b></span><span class="vd ${p.v}">${p.vt}</span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div class="pdetail" id="pd-${p.key}"><div><div class="inner">
+      <p>${p.line}</p>
+      <div class="evid">${p.ev.map(([k, v, c]) => `<div><div class="k">${k}</div><div class="v">${v}</div><div class="c">${c}</div></div>`).join("")}</div>
+    </div></div></div>
+  </div>`).join("");
+$$(".prow").forEach((r) => {
+  r.addEventListener("mouseenter", () => hot(r.dataset.p)); r.addEventListener("mouseleave", () => hot(null));
+  $("button", r).addEventListener("click", () => openRow(r.dataset.p));
+  $("button", r).addEventListener("focus", () => hot(r.dataset.p)); $("button", r).addEventListener("blur", () => hot(null));
+});
+$("#kpis").innerHTML = KPIS.map(([k, v, s, g, cheap]) => `<div class="kpi"><div class="label">${k} ${infoBtn(g)}</div><div class="v">${v}</div><div class="s ${cheap ? "good" : ""}">${cheap ? "▼ " : ""}${s}</div></div>`).join("");
+
+/* ---------------- Charts ---------------- */
+let range = 52, inds = { e20: false, e50: true, vol: true };
+function drawPrice(opt = {}) {
+  const svg = opt.svg || $("#priceSvg"), legendEl = opt.legend || $("#priceLegend"), rng = opt.range || range;
+  const W = opt.w || Math.max($("#priceBox").clientWidth, 280), H = opt.h || (W < 500 ? 250 : 330), pl = 4, pr = 46, pt = 12, pb = 26, volH = inds.vol ? 44 : 0;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.height = H + "px"; svg.innerHTML = "";
+  const data = PRICES.slice(-(rng + 1)), e20 = E20.slice(-(rng + 1)), e50 = E50.slice(-(rng + 1)), li = data.length - 1;
+  const vals = data.map((d) => d.p).concat(inds.e20 ? e20 : [], inds.e50 ? e50 : []);
+  let mn = Math.min(...vals), mx = Math.max(...vals); const pad = (mx - mn) * .1; mn -= pad; mx += pad;
+  const ph = H - pt - pb - volH - (volH ? 8 : 0);
+  const x = (i) => pl + (i / li) * (W - pl - pr), y = (p) => pt + (1 - (p - mn) / (mx - mn)) * ph;
+  const defs = el("defs", {}, svg), g = el("linearGradient", { id: opt.svg ? "pgp" : "pg", x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el("stop", { offset: "0", "stop-color": css("--gold-fill"), "stop-opacity": .2 }, g); el("stop", { offset: "1", "stop-color": css("--gold-fill"), "stop-opacity": 0 }, g);
+  for (let i = 0; i <= 4; i++) {
+    const p = mn + (mx - mn) * i / 4, yy = y(p);
+    el("line", { x1: pl, x2: W - pr, y1: yy, y2: yy, class: "gl" }, svg);
+    el("text", { x: W - pr + 8, y: yy + 4, class: "ax" }, svg).textContent = "₹" + Math.round(p);
+  }
+  const ticks = Math.max(2, Math.min(6, Math.floor((W - pl - pr) / 90)));
+  for (let i = 0; i <= ticks; i++) {
+    const idx = Math.round(i / ticks * li), t = el("text", { x: x(idx), y: H - 6, class: "ax", "text-anchor": i === 0 ? "start" : i === ticks ? "end" : "middle" }, svg);
+    t.textContent = data[idx].d.toLocaleDateString("en-IN", rng <= 26 ? { day: "numeric", month: "short" } : { month: "short", year: "2-digit" });
+  }
+  if (inds.vol) {
+    const vmax = Math.max(...data.map((d) => d.v)), base = H - pb, bw = Math.max(1, (W - pl - pr) / data.length - 1.2);
+    data.forEach((d, i) => el("rect", { x: x(i) - bw / 2, y: base - d.v / vmax * volH, width: bw, height: d.v / vmax * volH, fill: css("--c4"), opacity: .3 }, svg));
+  }
+  const line = data.map((d, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(d.p).toFixed(1)}`).join("");
+  el("path", { d: `${line}L${x(li)},${pt + ph}L${x(0)},${pt + ph}Z`, fill: opt.svg ? "url(#pgp)" : "url(#pg)" }, svg);
+  if (inds.e50) el("path", { d: e50.map((p, i) => `${i ? "L" : "M"}${x(i)},${y(p)}`).join(""), fill: "none", stroke: css("--c2"), "stroke-width": 1.3, "stroke-dasharray": "4 3" }, svg);
+  if (inds.e20) el("path", { d: e20.map((p, i) => `${i ? "L" : "M"}${x(i)},${y(p)}`).join(""), fill: "none", stroke: css("--c3"), "stroke-width": 1.3 }, svg);
+  el("path", { d: line, fill: "none", stroke: css("--ink-line"), "stroke-width": 1.6, "stroke-linejoin": "round" }, svg);
+  // high/low annotations
+  let hiI = 0, loI = 0; data.forEach((d, i) => { if (d.p > data[hiI].p) hiI = i; if (d.p < data[loI].p) loI = i; });
+  [[hiI, "High", -10], [loI, "Low", 18]].forEach(([i, lab, dy]) => {
+    el("circle", { cx: x(i), cy: y(data[i].p), r: 2.5, fill: css("--muted") }, svg);
+    el("text", { x: Math.min(Math.max(x(i), 40), W - pr - 40), y: y(data[i].p) + dy, class: "ax", "text-anchor": "middle" }, svg).textContent = `${lab} ₹${nf(data[i].p, 0)}`;
+  });
+  el("circle", { cx: x(li), cy: y(data[li].p), r: 4, fill: css("--gold"), stroke: css("--s1"), "stroke-width": 2 }, svg);
+  const cross = el("line", { y1: pt, y2: pt + ph, stroke: css("--border-strong"), visibility: "hidden" }, svg);
+  const dot = el("circle", { r: 4, fill: css("--text"), stroke: css("--s1"), "stroke-width": 2, visibility: "hidden" }, svg);
+  const chg = (data[li].p / data[0].p - 1) * 100;
+  svg.setAttribute("aria-label", `BPCL price over the selected range moved ${chg.toFixed(1)}%, from ₹${nf(data[0].p)} to ₹${nf(data[li].p)}.`);
+  legendEl.innerHTML = `<span class="${chg >= 0 ? "pos" : "neg"}" style="font-weight:600">${signed(chg)} over the period</span><span><i class="ln" style="background:var(--ink-line)"></i>Close</span>` +
+    (inds.e50 ? `<span><i class="ln" style="background:var(--c2)"></i>EMA 50</span>` : "") + (inds.e20 ? `<span><i class="ln" style="background:var(--c3)"></i>EMA 20</span>` : "") + (inds.vol ? `<span><i style="background:var(--c4);opacity:.5"></i>Volume</span>` : "");
+  if (opt.svg) return;
+  const tip = $("#priceTip");
+  svg.onpointermove = (ev) => {
+    const r = svg.getBoundingClientRect(), mxp = (ev.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(li, Math.round((mxp - pl) / (W - pl - pr) * li))), px = x(i), py = y(data[i].p);
+    cross.setAttribute("x1", px); cross.setAttribute("x2", px); cross.setAttribute("visibility", "visible");
+    dot.setAttribute("cx", px); dot.setAttribute("cy", py); dot.setAttribute("visibility", "visible");
+    tip.hidden = false; tip.style.left = Math.min(Math.max(px / W * r.width, 70), r.width - 70) + "px"; tip.style.top = py / H * r.height + "px";
+    tip.innerHTML = `<span class="faint">Week of ${data[i].d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span><b>₹${nf(data[i].p)}</b>${inds.e50 ? `<span class="muted">EMA 50 ₹${nf(e50[i])}</span>` : ""}`;
+  };
+  svg.onpointerleave = () => { cross.setAttribute("visibility", "hidden"); dot.setAttribute("visibility", "hidden"); tip.hidden = true; };
+}
+$$("#rangeSeg [data-r]").forEach((b) => b.addEventListener("click", () => { $$("#rangeSeg button").forEach((x) => x.setAttribute("aria-pressed", x === b)); range = +b.dataset.r; drawPrice(); }));
+$$("#indSeg [data-ind]").forEach((b) => b.addEventListener("click", () => { inds[b.dataset.ind] = !inds[b.dataset.ind]; b.setAttribute("aria-pressed", inds[b.dataset.ind]); drawPrice(); }));
+
+const rmax = Math.max(...RET.map((r) => Math.abs(r[1])));
+$("#retBars").innerHTML = RET.map(([p, v]) => `<div class="rrow"><span class="muted">${p}</span><div class="rtrack"><b style="${v >= 0 ? "left:50%;background:var(--gain)" : "right:50%;background:var(--loss)"};width:${Math.abs(v) / rmax * 50}%"></b></div><span class="${v >= 0 ? "pos" : "neg"}" style="text-align:right;font-weight:500">${signed(v)}</span></div>`).join("");
+
+/* Financial charts: one chart per statement */
+let fin = "pl";
+const LEDES = {
+  pl: "Revenue is near ₹5.2 lakh crore; profit swings with crude. FY23 nearly wiped out earnings, and FY26 brought them back to ₹25,843 Cr.",
+  bs: "The balance sheet grew 55% in five years while borrowings fell; reserves now fund more of the business than debt does.",
+  cf: "FY26 operating cash of ₹50,769 Cr was a record, enough to fund all capex and repay debt.",
+};
+function hoverBands(svg, W, H, n, x0, step, labels, render, tipEl) {
+  for (let i = 0; i < n; i++) {
+    const r = el("rect", { x: x0 + step * i, y: 0, width: step, height: H, fill: "transparent" }, svg);
+    r.addEventListener("pointerenter", () => { r.setAttribute("fill", css("--gold-soft")); const b = svg.getBoundingClientRect(); tipEl.hidden = false; tipEl.innerHTML = render(i); tipEl.style.left = Math.min(Math.max((x0 + step * (i + .5)) / W * b.width, 80), b.width - 80) + "px"; tipEl.style.top = "40px"; });
+    r.addEventListener("pointerleave", () => { r.setAttribute("fill", "transparent"); tipEl.hidden = true; });
+  }
+}
+function drawFin(opt = {}) {
+  const kind = opt.kind || fin, svg = opt.svg || $("#finSvg"), W = opt.w || Math.max($("#finBox").clientWidth, 280), small = W < 560;
+  const tip = opt.svg ? document.createElement("div") : $("#finTip"); tip.hidden = true;
+  const legendEl = opt.legend || $("#finLegend");
+  svg.innerHTML = ""; if (!opt.svg) $("#finLede").textContent = LEDES[kind];
+  if (kind === "pl") {
+    const H = small ? 300 : 320; svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.height = H + "px";
+    const pl = 46, pr = 46, n = YRS.length, step = (W - pl - pr) / n, bw = Math.min(46, step * .5);
+    const topH = H * .44, botT = topH + 34, botH = H - botT - 26;
+    el("text", { x: 0, y: 10, class: "ax" }, svg).textContent = "REVENUE · ₹ L Cr";
+    el("text", { x: 0, y: botT - 8, class: "ax" }, svg).textContent = "NET PROFIT · ₹ '000 Cr";
+    el("text", { x: W, y: botT - 8, class: "ax", "text-anchor": "end", fill: css("--c2") }, svg).textContent = "NET MARGIN";
+    const rev = PL.Revenue, np = PL["Net profit"], rmx = 6e5, nmx = 30000;
+    [0, 2, 4, 6].forEach((v) => { const yy = 18 + (1 - v / 6) * (topH - 18); el("line", { x1: pl, x2: W - pr, y1: yy, y2: yy, class: "gl" }, svg); el("text", { x: pl - 8, y: yy + 4, class: "ax", "text-anchor": "end" }, svg).textContent = v; });
+    [0, 10, 20, 30].forEach((v) => { const yy = botT + (1 - v / 30) * botH; el("line", { x1: pl, x2: W - pr, y1: yy, y2: yy, class: "gl" }, svg); el("text", { x: pl - 8, y: yy + 4, class: "ax", "text-anchor": "end" }, svg).textContent = v; });
+    [0, 3, 6].forEach((v) => { const yy = botT + (1 - v / 6) * botH; el("text", { x: W - pr + 8, y: yy + 4, class: "ax" }, svg).textContent = v + "%"; });
+    let ml = "";
+    YRS.forEach((yr, i) => {
+      const cx = pl + step * (i + .5), last = i === n - 1;
+      const rh = rev[i] / rmx * (topH - 18);
+      el("rect", { x: cx - bw / 2, y: topH - rh, width: bw, height: rh, rx: 2, fill: css(last ? "--gold-fill" : "--s3"), stroke: last ? "none" : css("--border-strong") }, svg);
+      if (!small || last) el("text", { x: cx, y: topH - rh - 6, class: "ax", "text-anchor": "middle" }, svg).textContent = nf(rev[i] / 1e5, 2);
+      const nh = np[i] / nmx * botH;
+      el("rect", { x: cx - bw / 2, y: botT + botH - nh, width: bw, height: nh, rx: 2, fill: css(last ? "--gold-fill" : "--c4"), opacity: last ? 1 : .55 }, svg);
+      const m = np[i] / rev[i] * 100, my = botT + (1 - m / 6) * botH; ml += `${i ? "L" : "M"}${cx},${my}`;
+      el("text", { x: cx, y: H - 6, class: "ax", "text-anchor": "middle" }, svg).textContent = yr;
+    });
+    el("path", { d: ml, fill: "none", stroke: css("--c2"), "stroke-width": 1.6 }, svg);
+    YRS.forEach((_, i) => { const cx = pl + step * (i + .5), m = np[i] / rev[i] * 100; el("circle", { cx, cy: botT + (1 - m / 6) * botH, r: 3.2, fill: css("--c2"), stroke: css("--s1"), "stroke-width": 1.5 }, svg); });
+    // annotation FY23
+    const ax = pl + step * 2.5, ay = botT + (1 - (np[2] / rev[2] * 100) / 6) * botH;
+    el("text", { x: ax, y: ay - 10, class: "ax", "text-anchor": "middle", fill: css("--loss") }, svg).textContent = "FY23 margin 0.4%";
+    if (!small) el("text", { x: pl + step * 5.5, y: botT + botH - np[5] / nmx * botH - 8, class: "ax", "text-anchor": "middle", fill: css("--gold") }, svg).textContent = "PAT +93.8%";
+    hoverBands(svg, W, H, n, pl, step, YRS, (i) => `<span class="faint">${YRS[i]}</span><b>Revenue ₹${cr(rev[i])} Cr</b><span class="muted">Net profit ₹${num(np[i], 0)} Cr · margin ${nf(np[i] / rev[i] * 100, 1)}%</span>`, tip);
+    svg.setAttribute("aria-label", "Revenue grew from ₹3.04 lakh crore in FY21 to ₹5.23 lakh crore in FY26. Net profit fell to ₹2,131 crore in FY23 and recovered to ₹25,843 crore in FY26.");
+    legendEl.innerHTML = `<span><i style="background:var(--s3);border:1px solid var(--border-strong)"></i>Revenue</span><span><i style="background:var(--c4);opacity:.6"></i>Net profit</span><span><i class="ln" style="background:var(--c2)"></i>Net margin</span><span><i style="background:var(--gold-fill)"></i>Latest year</span>`;
+  } else if (kind === "bs") {
+    const H = opt.h || 300; svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.height = H + "px";
+    const pl = 46, pr = 16, pt = 18, pb = 26, n = YRS.length, step = (W - pl - pr) / n, bw = Math.min(56, step * .55), mx = 260000;
+    const parts = [["Equity + reserves", (i) => BS["Equity capital"][i] + BS.Reserves[i], "--c1"], ["Borrowings", (i) => BS.Borrowings[i], "--c2"], ["Other liabilities", (i) => BS["Total liabilities"][i] - BS["Equity capital"][i] - BS.Reserves[i] - BS.Borrowings[i], "--c4"]];
+    [0, 1, 2, 2.5].forEach((v) => { const yy = pt + (1 - v * 1e5 / mx) * (H - pt - pb); el("line", { x1: pl, x2: W - pr, y1: yy, y2: yy, class: "gl" }, svg); el("text", { x: pl - 8, y: yy + 4, class: "ax", "text-anchor": "end" }, svg).textContent = v + "L"; });
+    YRS.forEach((yr, i) => {
+      const cx = pl + step * (i + .5); let base = H - pb;
+      parts.forEach(([, f, col], k) => { const h = f(i) / mx * (H - pt - pb); el("rect", { x: cx - bw / 2, y: base - h, width: bw, height: Math.max(0, h - 1.5), fill: css(col), opacity: k === 2 ? .45 : .9 }, svg); base -= h; });
+      el("text", { x: cx, y: base - 6, class: "ax", "text-anchor": "middle" }, svg).textContent = nf(BS["Total assets"][i] / 1e5, 2) + "L";
+      el("text", { x: cx, y: H - 6, class: "ax", "text-anchor": "middle" }, svg).textContent = yr;
+    });
+    hoverBands(svg, W, H, n, pl, step, YRS, (i) => `<span class="faint">${YRS[i]} · funded by</span><b>₹${cr(BS["Total assets"][i])} Cr</b>` + parts.map(([nm, f]) => `<span class="muted">${nm} ₹${cr(f(i))} Cr</span>`).join("<br>"), tip);
+    svg.setAttribute("aria-label", "Total assets grew from ₹1.61 lakh crore in FY21 to ₹2.49 lakh crore in FY26. Equity and reserves rose to ₹1.00 lakh crore while borrowings fell to ₹43,482 crore.");
+    legendEl.innerHTML = parts.map(([nm, , col], k) => `<span><i style="background:var(${col});opacity:${k === 2 ? .5 : .9}"></i>${nm}</span>`).join("");
+  } else {
+    const H = opt.h || 300; svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.style.height = H + "px";
+    const pl = 46, pr = 16, pt = 14, pb = 26, n = CF_YRS.length, step = (W - pl - pr) / n, bw = Math.min(20, step * .2), mx = 55000, mn = -30000;
+    const y = (v) => pt + (mx - v) / (mx - mn) * (H - pt - pb);
+    [-25000, 0, 25000, 50000].forEach((v) => { el("line", { x1: pl, x2: W - pr, y1: y(v), y2: y(v), class: "gl", "stroke-width": v === 0 ? 1.5 : 1 }, svg); el("text", { x: pl - 8, y: y(v) + 4, class: "ax", "text-anchor": "end" }, svg).textContent = (v < 0 ? MINUS : "") + Math.abs(v / 1000) + "k"; });
+    const keys = [["Operating", "--gain"], ["Investing", "--c4"], ["Financing", "--c2"]];
+    let fl = "";
+    CF_YRS.forEach((yr, i) => {
+      const cx = pl + step * (i + .5);
+      keys.forEach(([k, col], j) => { const v = CF[k][i], x0 = cx + (j - 1) * (bw + 4) - bw / 2; el("rect", { x: x0, y: Math.min(y(v), y(0)), width: bw, height: Math.abs(y(v) - y(0)), rx: 2, fill: css(col), opacity: k === "Investing" ? .6 : .9 }, svg); });
+      const fcf = CF.Operating[i] + CF.Investing[i]; fl += `${i ? "L" : "M"}${cx},${y(fcf)}`;
+      el("text", { x: cx, y: H - 6, class: "ax", "text-anchor": "middle" }, svg).textContent = yr;
+    });
+    el("path", { d: fl, fill: "none", stroke: css("--gold"), "stroke-width": 1.6, "stroke-dasharray": "5 3" }, svg);
+    CF_YRS.forEach((_, i) => el("circle", { cx: pl + step * (i + .5), cy: y(CF.Operating[i] + CF.Investing[i]), r: 3.5, fill: css("--gold"), stroke: css("--s1"), "stroke-width": 1.5 }, svg));
+    el("text", { x: pl + step * 4.5, y: y(50768.99) - 8, class: "ax", "text-anchor": "middle", fill: css("--gain") }, svg).textContent = "Record ₹50,769 Cr";
+    hoverBands(svg, W, H, n, pl, step, CF_YRS, (i) => `<span class="faint">${CF_YRS[i]}</span><b>FCF ₹${num(CF.Operating[i] + CF.Investing[i], 0)} Cr</b>` + keys.map(([k]) => `<span class="muted">${k} ₹${num(CF[k][i], 0)} Cr</span>`).join("<br>"), tip);
+    svg.setAttribute("aria-label", "Operating cash flow reached a record ₹50,769 crore in FY26; free cash flow was ₹24,702 crore.");
+    legendEl.innerHTML = `<span><i style="background:var(--gain)"></i>Operating</span><span><i style="background:var(--c4);opacity:.6"></i>Investing</span><span><i style="background:var(--c2)"></i>Financing</span><span><i class="ln" style="background:var(--gold)"></i>Free cash flow</span>`;
+  }
+}
+function spark(vals, w = 72, h = 22) {
+  const v = vals.filter((x) => x != null), mn = Math.min(...v), mx = Math.max(...v), n = vals.length;
+  let d = ""; vals.forEach((x, i) => { if (x == null) return; d += `${d ? "L" : "M"}${(i / (n - 1) * (w - 4) + 2).toFixed(1)},${(h - 3 - (x - mn) / ((mx - mn) || 1) * (h - 6)).toFixed(1)}`; });
+  const lx = w - 2, ly = h - 3 - (vals[n - 1] - mn) / ((mx - mn) || 1) * (h - 6);
+  return `<svg class="spk" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${d}" fill="none" stroke="var(--muted)" stroke-width="1.3" stroke-linejoin="round"/><circle cx="${lx}" cy="${ly}" r="2.2" fill="var(--gold)"/></svg>`;
+}
+function drawFinTable() {
+  if (document.documentElement.dataset.mode !== "pro") return;
+  const t = $("#finTable");
+  if (fin === "cf") {
+    t.innerHTML = `<thead><tr><th>₹ Cr</th>${CF_YRS.map((y, i) => `<th class="${i === CF_YRS.length - 1 ? "latest" : ""}">${y}</th>`).join("")}<th>Trend</th></tr></thead><tbody>` +
+      Object.entries(CF).map(([k, v]) => `<tr class="${k === "Net cash flow" ? "tot" : ""}"><td>${k === "Net cash flow" ? k : "Cash from " + k.toLowerCase()}</td>${v.map((x, i) => `<td class="${i === v.length - 1 ? "latest" : ""} ${x < 0 ? "neg" : ""}">${num(x, 0)}</td>`).join("")}<td>${spark(v)}</td></tr>`).join("") +
+      `<tr class="tot"><td>Free cash flow</td>${CF_YRS.map((_, i) => { const f = CF.Operating[i] + CF.Investing[i]; return `<td class="${i === CF_YRS.length - 1 ? "latest" : ""} ${f < 0 ? "neg" : ""}">${num(f, 0)}</td>`; }).join("")}<td>${spark(CF_YRS.map((_, i) => CF.Operating[i] + CF.Investing[i]))}</td></tr></tbody>`;
+    return;
+  }
+  const src = fin === "pl" ? PL : BS, tots = ["Operating profit", "Profit before tax", "Net profit", "Total liabilities", "Total assets"];
+  t.innerHTML = `<thead><tr><th>₹ Cr</th>${YRS.map((y, i) => `<th class="${i === 5 ? "latest" : ""}">${y}</th>`).join("")}<th>YoY</th><th>Trend</th></tr></thead><tbody>` +
+    Object.entries(src).map(([k, v]) => {
+      const yoy = v[4] ? (v[5] / v[4] - 1) * 100 : 0, eps = k.startsWith("EPS");
+      return `<tr class="${tots.includes(k) ? "tot" : ""}"><td>${k}</td>${v.map((x, i) => `<td class="${i === 5 ? "latest" : ""} ${x < 0 ? "neg" : ""}">${eps ? nf(x) : cr(x)}</td>`).join("")}<td class="${yoy >= 0 ? "pos" : "neg"}">${v[4] > 0 && v[5] > 0 ? signed(yoy, 1) : "—"}</td><td>${spark(v)}</td></tr>`;
+    }).join("") + "</tbody>";
+}
+$$("#finTabs [data-f]").forEach((b) => b.addEventListener("click", () => { $$("#finTabs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); fin = b.dataset.f; drawFin(); drawFinTable(); }));
+
+/* Ratios */
+$("#ratioGroups").innerHTML = RATIO_GROUPS.map((g) => `<div class="card"><div class="card-h"><h3>${g.t}</h3><span class="s">${g.p}</span></div>` +
+  g.rows.map(([k, v, u, sector, lowerBetter, pro]) => {
+    let bench = "";
+    if (sector != null) {
+      const max = Math.max(v, sector) * 1.25, good = lowerBetter ? v < sector : v > sector;
+      bench = `<div class="bench"><div class="trk"><b style="width:${v / max * 100}%"></b><em style="left:${sector / max * 100}%"></em></div><span class="t ${good ? "pos" : "neg"}">${lowerBetter ? (good ? "Cheaper" : "Pricier") : (good ? "Better" : "Weaker")} than sector ${nf(sector)}${u.trim()}</span></div>`;
+    }
+    const gl = GLOSS[k];
+    return `<div class="mrow ${pro ? "pro" : ""}"><span class="k">${k} ${infoBtn(k)}</span><span class="v">${nf(v, u === " days" ? 0 : 2)}${u === " days" ? `<span class="unit">days</span>` : `<span class="unit">${u}</span>`}</span>${bench}${gl ? `<span class="d simple-only">${gl[1]}</span>` : ""}</div>`;
+  }).join("") + `</div>`).join("");
+$("#histTable").innerHTML = `<thead><tr><th>%</th>${HYRS.map((y, i) => `<th class="${i === 8 ? "latest" : ""}">${y}</th>`).join("")}<th>Trend</th></tr></thead><tbody>` +
+  Object.entries(HIST).map(([k, v]) => `<tr><td>${k}</td>${v.map((x, i) => `<td class="${i === 8 ? "latest" : ""}">${x == null ? `<span class="faint" title="Not reported for this year">—</span>` : nf(x)}</td>`).join("")}<td>${spark(v)}</td></tr>`).join("") + "</tbody>";
+
+/* Ownership */
+const OWN = [["Promoters", 52.97, -1.96, "--c1"], ["DII + mutual funds", 21.58, 13.8, "--c3"], ["FII", 16.66, -5.25, "--c2"], ["Retail & others", 8.79, null, "--c4"]];
+(function () {
+  const prev = OWN.map(([n, v, c]) => [n, c == null ? 0 : v - c]); const other = 100 - prev.slice(0, 3).reduce((a, b) => a + b[1], 0); prev[3][1] = other;
+  const bar = (vals) => `<div class="stack">${vals.map((v, i) => `<span style="width:${v}%;background:var(${OWN[i][3]})" title="${OWN[i][0]} ${nf(v)}%">${v > 7 ? nf(v, 1) + "%" : ""}</span>`).join("")}</div>`;
+  $("#ownBars").innerHTML = `<div class="own-row"><span class="muted">Sep 2025</span>${bar(prev.map((p) => p[1]))}</div><div class="own-row"><span style="font-weight:600">Sep 2026</span>${bar(OWN.map((o) => o[1]))}</div>`;
+  $("#ownLeg").innerHTML = OWN.map(([n, v, c, col]) => `<div><div class="label" style="display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:2px;background:var(${col})"></span>${n}</div><div class="v">${nf(v)}%</div><div class="c ${c == null ? "faint" : c >= 0 ? "pos" : "neg"}">${c == null ? "Balance" : signed(c, 2, " pts")}</div></div>`).join("");
+})();
+
+/* Peers */
+(function () {
+  const mx = Math.max(...PEERS.map((p) => p[2]));
+  $("#peerTable").innerHTML = `<thead><tr><th>Company</th><th>Market cap (₹ Cr)</th><th style="text-align:left;width:40%">Relative size (log scale)</th></tr></thead><tbody>` +
+    PEERS.map(([n, t, mc, me]) => `<tr class="${me ? "me" : "click"}" ${me ? "" : `tabindex="0" data-t="${t}"`}><td><b>${n}</b> <span class="mono faint" style="font-size:11.5px;margin-left:6px">${t}</span></td><td>${nf(mc, 0)}</td><td style="text-align:left"><span style="display:block;height:6px;border-radius:3px;width:${Math.max(4, Math.log10(mc / 10000) / Math.log10(mx / 10000) * 100)}%;background:${me ? "var(--gold-fill)" : "var(--c4)"};opacity:${me ? 1 : .55}"></span></td></tr>`).join("") + "</tbody>";
+  const go = (e) => { const tr = e.target.closest("[data-t]"); if (tr) toast(`${tr.dataset.t} opens here in the full build.`); };
+  $("#peerTable").addEventListener("click", go); $("#peerTable").addEventListener("keydown", (e) => { if (e.key === "Enter") go(e); });
+})();
+$("#timeline").innerHTML = DIVS.map(([a, t, d]) => `<div><div class="amt">${a}</div><div class="t">${t}</div><div class="d">${d}</div></div>`).join("");
+
+
+/* ---------------- Downloads: PDF research note, offline HTML, CSV ---------------- */
+const dlBtn = $("#dlBtn"), dlMenu = $("#dlMenu");
+function toggleDl(open) { dlMenu.hidden = !open; dlBtn.setAttribute("aria-expanded", open); if (open) $("button", dlMenu).focus(); }
+dlBtn.addEventListener("click", (e) => { e.stopPropagation(); toggleDl(dlMenu.hidden); });
+document.addEventListener("click", (e) => { if (!e.target.closest("#dl")) toggleDl(false); });
+dlMenu.addEventListener("keydown", (e) => {
+  const items = $$("button", dlMenu), i = items.indexOf(document.activeElement);
+  if (e.key === "ArrowDown") { items[(i + 1) % items.length].focus(); e.preventDefault(); }
+  if (e.key === "ArrowUp") { items[(i - 1 + items.length) % items.length].focus(); e.preventDefault(); }
+  if (e.key === "Escape") { toggleDl(false); dlBtn.focus(); }
+});
+function saveFile(name, text, type) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+$$("[data-dl]", dlMenu).forEach((b) => b.addEventListener("click", () => {
+  toggleDl(false);
+  const k = b.dataset.dl;
+  if (k === "pdf") { toast("Choose “Save as PDF” as the printer to download the research note."); setTimeout(() => window.print(), 350); }
+  if (k === "html") {
+    $("#printDoc").innerHTML = "";
+    const doc = "<!doctype html>\n" + document.documentElement.outerHTML.replace(/<div class="toast"[^>]*>.*?<\/div>/, '<div class="toast" id="toast" role="status" hidden></div>');
+    saveFile("BPCL-FinLit-Research.html", doc, "text/html");
+    toast("Offline copy saved. Open BPCL-FinLit-Research.html in any browser, even without internet.");
+  }
+  if (k === "csv") {
+    const q = (v) => (typeof v === "string" && /[",]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v ?? "");
+    const rows = [["FinLit research data · BPCL · Consolidated · as of 15 Oct 2026 · ₹ crore unless stated"], [],
+      ["Research score", 61, "Mixed"], ...PILLARS.map((p) => [p.n, p.s, p.vt]), [],
+      ["Profit & loss", ...YRS], ...Object.entries(PL).map(([k, v]) => [k, ...v]), [],
+      ["Balance sheet", ...YRS], ...Object.entries(BS).map(([k, v]) => [k, ...v]), [],
+      ["Cash flow", ...CF_YRS], ...Object.entries(CF).map(([k, v]) => [k, ...v]), [],
+      ["Ratio history (%)", ...HYRS], ...Object.entries(HIST).map(([k, v]) => [k, ...v]), [],
+      ["Ratio group", "Ratio", "Value", "Unit", "Sector"], ...RATIO_GROUPS.flatMap((g) => g.rows.map(([k, v, u, sec]) => [g.t, k, v, u.trim(), sec ?? ""])), [],
+      ["Shareholding Sep 2026", "%", "1Y change (pts)"], ...OWN.map(([n, v, c]) => [n, v, c ?? ""]), [],
+      ["Peer", "Ticker", "Market cap (₹ Cr)"], ...PEERS.map(([n, t, m]) => [n, t, m]), [],
+      ["Dividend", "Type", "Date"], ...DIVS.map((d) => [d[0].replace("₹", ""), d[1], d[2]]),
+      [], ["Research summary, not a recommendation. FinLit Ventures is not registered with SEBI or AMFI."]];
+    saveFile("BPCL-FinLit-Data.csv", "﻿" + rows.map((r) => r.map(q).join(",")).join("\n"), "text/csv;charset=utf-8");
+    toast("Data saved as BPCL-FinLit-Data.csv.");
+  }
+}));
+
+let printTheme = null;
+function svgEl(w, h) { const s = document.createElementNS(NS, "svg"); s.setAttribute("viewBox", `0 0 ${w} ${h}`); return s; }
+function buildPrintDoc() {
+  printTheme = document.documentElement.dataset.theme;
+  document.documentElement.dataset.theme = "light";   // charts read colours from CSS, so draw them in the paper palette
+  drawDial(false);
+  const dial = $("#dial svg").cloneNode(true); dial.setAttribute("viewBox", "-46 -14 392 328");
+  const t = el("text", { x: 150, y: 160, "text-anchor": "middle", "font-family": "Newsreader, Georgia, serif", "font-size": 64, "font-weight": 300, fill: "#0B1628" }, dial); t.textContent = "61";
+  const t2 = el("text", { x: 150, y: 186, "text-anchor": "middle", "font-family": "IBM Plex Sans, sans-serif", "font-size": 10, "font-weight": 600, "letter-spacing": ".12em", fill: css("--v-mixed") }, dial); t2.textContent = "● MIXED";
+  const head = (sec) => `<div class="pp-head"><span class="lg">Fin<b>Lit</b> · Research Report</span><span>${sec}</span></div>`;
+  const foot = `<div class="pf"><span>Bharat Petroleum Corporation Ltd (BPCL) · Consolidated · Data as of 15 Oct 2026 · Source: Finedge</span><span>Research summary, not a recommendation. FinLit Ventures is not registered with SEBI or AMFI.</span></div>`;
+  const vc = (v) => css(VCOL[v]);
+  const doc = $("#printDoc");
+  doc.innerHTML = `
+  <section class="pp">${head("Page 1 · The report")}
+    <div class="sub" style="text-transform:uppercase;letter-spacing:.12em;font-size:8pt;color:#7E5D10;font-weight:600">Equity research · Refineries &amp; Marketing</div>
+    <h1>Bharat Petroleum Corporation Ltd</h1>
+    <div class="sub">BPCL · NSE · ISIN INE029A01011 · Last price ₹293.45 (▲ +1.47%) · NSE close, 15 Oct 2026</div>
+    <div class="cover" style="margin:18px 0 14px"><div id="pDial"></div>
+      <div><h3>FinLit research score · 61 / 100 · Mixed</h3>
+        <p class="thesis">A highly profitable, cash-rich business priced below its sector, while the share price has been weak for a year.</p>
+        <table><thead><tr><th>Pillar</th><th>Score</th><th style="width:34%">&nbsp;</th><th>Verdict</th></tr></thead><tbody>
+        ${PILLARS.map((p) => `<tr><td><b>${p.n}</b><div class="fine">${p.line}</div></td><td style="font-family:var(--serif);font-size:14pt">${p.s}</td><td><div class="bar"><b style="width:${p.s}%;background:${vc(p.v)}"></b></div></td><td><span class="pill" style="color:${vc(p.v)}">● ${p.vt}</span></td></tr>`).join("")}
+        </tbody></table>
+        <p class="fine" style="margin:8px 0 0">Score bands: Strong ≥ 80 · Healthy 65–79 · Mixed 45–64 · Weak &lt; 45. The research score is the equal-weight average of the five pillars.</p></div></div>
+    <div class="row c3">
+      <div class="box"><h3>Profit is real</h3>ROE of 28.5%; operating cash flow of ₹50,769 Cr was about 2× reported profit.</div>
+      <div class="box"><h3>Priced below sector</h3>P/E of 7.3× against 15.5× for the sector, with a 6.0% dividend yield.</div>
+      <div class="box"><h3>Weak price trend</h3>Down 15.4% in a year and 6.9% below its 200-day average; FIIs cut 5.25 pts.</div>
+    </div>
+    <h3 style="margin-top:6px">Key numbers</h3>
+    <div class="row c4">${KPIS.map(([k, v, s2]) => `<div class="kp"><div class="k">${k}</div><div class="v">${v.replace(/<[^>]+>/g, "")}</div><div class="s">${s2}</div></div>`).join("")}</div>
+    ${foot}
+  </section>
+  <section class="pp">${head("Page 2 · Notes &amp; price")}
+    <h2>Research notes</h2>
+    <div class="row c3">${["Strengths", "Watch-outs", "From the model"].map((h, i) => `<div class="box"><h3>${h}</h3><ul>${$$("#notes .notes > div")[i].querySelectorAll("li span:last-child").length ? [...$$("#notes .notes > div")[i].querySelectorAll("li span:last-child")].map((x) => `<li>${x.textContent}</li>`).join("") : ""}</ul></div>`).join("")}</div>
+    <h2 style="margin-top:8px">Price, one year</h2>
+    <div class="box"><div id="pPrice"></div><div class="legend" id="pPriceLeg"></div></div>
+    <div class="row c2" style="margin-top:14px">
+      <div class="box"><h3>Momentum</h3><table><tbody>
+        <tr><td>RSI (14)</td><td>23.41 · oversold zone</td></tr><tr><td>vs 50-day average</td><td>${MINUS}2.90%</td></tr><tr><td>vs 200-day average</td><td>${MINUS}6.93%</td></tr><tr><td>52-week range</td><td>${$("#lo52").textContent} – ${$("#hi52").textContent}</td></tr></tbody></table></div>
+      <div class="box"><h3>Price return</h3><table><tbody>${RET.map(([p, v]) => `<tr><td>${p}</td><td style="color:${v >= 0 ? css("--gain") : css("--loss")}">${signed(v)}</td></tr>`).join("")}</tbody></table></div>
+    </div>
+    <p class="fine">Price history in this prototype is illustrative and anchored to the reported 1-, 3- and 5-year returns. Dividend-inclusive returns are withheld pending a data fix.</p>
+    ${foot}
+  </section>
+  <section class="pp">${head("Page 3 · Profit &amp; loss")}
+    <h2>Financials: profit &amp; loss</h2><p class="sub" style="margin:0 0 10px">${LEDES.pl}</p>
+    <div class="box"><div id="pPL"></div><div class="legend" id="pPLLeg"></div></div>
+    <table style="margin-top:14px"><thead><tr><th>₹ Cr</th>${YRS.map((y) => `<th>${y}</th>`).join("")}</tr></thead><tbody>
+      ${Object.entries(PL).map(([k, v]) => `<tr class="${["Operating profit", "Profit before tax", "Net profit"].includes(k) ? "tot" : ""}"><td>${k}</td>${v.map((x) => `<td>${k.startsWith("EPS") ? nf(x) : cr(x)}</td>`).join("")}</tr>`).join("")}
+    </tbody></table>
+    ${foot}
+  </section>
+  <section class="pp tight">${head("Page 4 · Balance sheet &amp; cash flow")}
+    <h2>Balance sheet</h2><p class="sub" style="margin:0 0 10px">${LEDES.bs}</p>
+    <div class="box"><div id="pBS"></div><div class="legend" id="pBSLeg"></div></div>
+    <h2 style="margin-top:16px">Cash flow</h2><p class="sub" style="margin:0 0 10px">${LEDES.cf}</p>
+    <div class="box"><div id="pCF"></div><div class="legend" id="pCFLeg"></div></div>
+    <table style="margin-top:14px"><thead><tr><th>₹ Cr</th>${CF_YRS.map((y) => `<th>${y}</th>`).join("")}</tr></thead><tbody>
+      ${Object.entries(CF).map(([k, v]) => `<tr class="${k === "Net cash flow" ? "tot" : ""}"><td>${k}</td>${v.map((x) => `<td>${num(x, 0)}</td>`).join("")}</tr>`).join("")}
+      <tr class="tot"><td>Free cash flow</td>${CF_YRS.map((_, i) => `<td>${num(CF.Operating[i] + CF.Investing[i], 0)}</td>`).join("")}</tr>
+    </tbody></table>
+    ${foot}
+  </section>
+  <section class="pp tight">${head("Page 5 · Ratios, ownership &amp; peers")}
+    <h2>Ratios by pillar</h2>
+    <div class="row c3">${RATIO_GROUPS.map((g) => `<div class="box"><h3>${g.t}</h3><table><tbody>${g.rows.map(([k, v, u, sec]) => `<tr><td>${k}</td><td>${nf(v, u === " days" ? 0 : 2)}${u}${sec != null ? `<div class="fine">sector ${nf(sec)}${u}</div>` : ""}</td></tr>`).join("")}</tbody></table></div>`).join("")}</div>
+    <h3>Nine-year history (%)</h3>
+    <table><thead><tr><th></th>${HYRS.map((y) => `<th>${y}</th>`).join("")}</tr></thead><tbody>${Object.entries(HIST).map(([k, v]) => `<tr><td>${k}</td>${v.map((x) => `<td>${x == null ? "—" : nf(x)}</td>`).join("")}</tr>`).join("")}</tbody></table>
+    <div class="row c2" style="margin-top:14px">
+      <div class="box"><h3>Shareholding · Sep 2026</h3><table><tbody>${OWN.map(([n, v, c]) => `<tr><td>${n}</td><td>${nf(v)}%</td><td style="color:${c == null ? "#666E7F" : c >= 0 ? css("--gain") : css("--loss")}">${c == null ? "—" : signed(c, 2, " pts")}</td></tr>`).join("")}</tbody></table></div>
+      <div class="box"><h3>Peers · market cap (₹ Cr)</h3><table><tbody>${PEERS.map(([n, t, m, me]) => `<tr><td>${me ? "<b>" + n + "</b>" : n}</td><td>${nf(m, 0)}</td></tr>`).join("")}</tbody></table></div>
+    </div>
+    <div class="row c2">
+      <div class="box"><h3>Recent dividends</h3><table><tbody>${DIVS.map(([a, t3, d]) => `<tr><td>${d}</td><td>${t3}</td><td>${a}</td></tr>`).join("")}</tbody></table></div>
+      <div class="box"><h3>Method &amp; data notes</h3><div class="fine">Each pillar is scored 0–100 from statements, ratios and price history; the research score is their equal-weight average. Strong ≥ 80 · Healthy 65–79 · Mixed 45–64 · Weak &lt; 45. Known feed issues (dividend return, 1Y return, payout, interest cover, DII change) are listed on the web page and excluded or flagged here.</div></div>
+    </div>
+    ${foot}
+  </section>`;
+  $("#pDial").appendChild(dial);
+  const mk = (id, w, h) => { const s2 = svgEl(w, h); $(id).appendChild(s2); return s2; };
+  drawPrice({ svg: mk("#pPrice", 680, 230), w: 680, h: 230, range: 52, legend: $("#pPriceLeg") });
+  drawFin({ kind: "pl", svg: mk("#pPL", 680, 320), w: 680, legend: $("#pPLLeg") });
+  drawFin({ kind: "bs", svg: mk("#pBS", 680, 250), w: 680, h: 250, legend: $("#pBSLeg") });
+  drawFin({ kind: "cf", svg: mk("#pCF", 680, 250), w: 680, h: 250, legend: $("#pCFLeg") });
+  $$("#printDoc svg").forEach((s2) => { s2.style.height = "auto"; });
+}
+function restoreAfterPrint() {
+  if (printTheme) { document.documentElement.dataset.theme = printTheme; printTheme = null; }
+  $("#printDoc").innerHTML = ""; drawCharts(false);
+}
+addEventListener("beforeprint", buildPrintDoc);
+addEventListener("afterprint", restoreAfterPrint);
+
+/* ---------------- Sticky nav state & scroll-spy ---------------- */
+const secnav = $("#secnav"), links = $$("#secnav nav a");
+new IntersectionObserver(([e]) => secnav.classList.toggle("stuck", !e.isIntersecting), { rootMargin: "-120px 0px 0px 0px" }).observe($("#report"));
+const spy = new IntersectionObserver((es) => es.forEach((e) => {
+  if (!e.isIntersecting) return;
+  links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+  const a = links.find((x) => x.classList.contains("active")); if (a) a.scrollIntoView({ block: "nearest", inline: "center" });
+}), { rootMargin: "-130px 0px -60% 0px" });
+$$("section.block").forEach((s) => spy.observe(s));
+
+/* ---------------- Boot ---------------- */
+function drawCharts(animate) { drawDial(animate); drawPrice(); drawFin(); }
+syncThemeIcon();
+setMode(document.documentElement.dataset.mode || "simple");
+drawCharts(true);
+let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { drawPrice(); drawFin(); }, 120); });
+</script>
+</body>
+</html>
