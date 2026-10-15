@@ -36,9 +36,9 @@ Put these as CSS variables on `:root` / `[data-theme="dark"]` / `[data-theme="li
 
 **Bands.** The hero, the Plans section and the footer are full-width "bands" with their own dark-rich palette in both themes:
 - **Dark theme:** navy with gold, blue and emerald radial glows, plus a faint 56px grid masked to fade out.
-- **Light theme:** a royal-blue gradient (`#10276A → #16348A → #0D1F55`) with gold, cyan and violet glows.
-
-The light theme therefore stays vivid. Everything outside the bands follows the page theme.
+- **Light theme:** the hero and Plans bands become an airy pearl wash. It runs from `#FBF8F1` to the page background `#F1F4FB`, with soft gold, sky and lilac glows and a faint grid, and fades into the page with no hard edge.
+- **Dark "jewel" surfaces:** in the light theme, the report card, plan cards and comparison table keep the deep-navy palette. They are the dark focal points on a light page.
+- **Footer:** deep navy in both themes.
 
 **Rules:**
 - Red and green appear only on signed changes, always with ▲ / ▼ and the sign.
