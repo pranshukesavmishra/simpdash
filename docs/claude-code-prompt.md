@@ -19,34 +19,31 @@ Detected stack on the live page: React + Tailwind + Recharts. **Before writing c
 
 Deep vault navy, champagne gold used sparingly, an editorial serif for names and scores, and perfectly aligned tabular numbers. Light theme is warm fine paper with navy ink, never a plain white afterthought. No neon, purple gradients, glassmorphism or pill-everything SaaS look.
 
-### 1.1 Colour tokens
+### 1.1 Colour tokens (rich, not minimal)
 
-Define them as CSS variables on `:root` / `[data-theme="dark"]` / `[data-theme="light"]` and map them into `tailwind.config`. No hex values in components. Contrast was checked to WCAG AA on s1 and s3.
+Put these as CSS variables on `:root` / `[data-theme="dark"]` / `[data-theme="light"]`, map them into `tailwind.config`, and use no hex values in components. The page is deliberately colourful. Each of the five pillars has its own identity colour, and that colour is reused everywhere the pillar's evidence appears.
 
 | Token | Dark | Light |
 |---|---|---|
-| `--bg` | `#060D1A` | `#F5F1E8` |
-| `--s1` (cards) | `#0B1526` | `#FFFDF8` |
-| `--s2` (raised/hover) | `#111D33` | `#FAF6EE` |
-| `--s3` (inputs, tracks) | `#18263F` | `#EEE8DC` |
-| `--border` | `rgba(201,214,236,.08)` | `#E4DDCF` |
-| `--border-strong` | `rgba(201,214,236,.16)` | `#CFC6B3` |
-| `--hairline-gold` | `rgba(212,175,97,.32)` | `rgba(126,93,16,.35)` |
-| `--text` | `#ECE7DC` (warm ivory) | `#0B1628` (navy ink) |
-| `--muted` | `#9CA5B7` | `#4C566A` |
-| `--faint` | `#7C8599` | `#666E7F` |
-| `--gold` (text/lines) | `#D4AF61` | `#7E5D10` |
-| `--gold-fill` (fills/CTA) | `#D4AF61` | `#B8913F` |
-| `--gain` / `--loss` | `#3DC48F` / `#F2796E` | `#086F4A` / `#B5362F` |
-| `--warn` / `--info` | `#E9B44C` / `#86A9EA` | `#875A0C` / `#2A5DB5` |
-| Verdict: strong / healthy / mixed / weak | `#3DC48F` / `#5FB3A1` / `#9DB0CB` / `#F2796E` | `#086F4A` / `#256F61` / `#4F6582` / `#B5362F` |
-| Chart series 1–5 | `#D4AF61 #7FA6E8 #5FB3A1 #B4BAC7 #B394C4` | `#9C7A2E #3E67A8 #256F61 #8A919E #7E6596` |
+| `--bg` | `#060C1A` | `#F1F4FB` (cool porcelain with soft blue and gold glows) |
+| `--s1 / --s2 / --s3` | `#0D182E / #122039 / #1A2A48` | `#FFFFFF / #F7F9FE / #E9EEF8` |
+| `--text / --muted / --faint` | `#EEF2FA / #A7B2CC / #8390AD` | `#0B1530 / #44516D / #5F6B88` |
+| `--gold` brand (+ `--gold-2`, `--gold-deep` for gradients) | `#EBC46A` | `#9A6A0E` (text) / `#E3AC34` (fills) |
+| `--gain / --loss / --warn / --info` | `#34D399 / #FB7185 / #F59E0B / #60A5FA` | `#047857 / #BE123C / #B45309 / #1D4ED8` |
+| Pillars: quality / growth / profitability / balance / technical | `#34D399 / #60A5FA / #A78BFA / #22D3EE / #F472B6` | `#059669 / #2563EB / #7C3AED / #0891B2 / #DB2777` |
+| Verdicts: strong / healthy / mixed / weak | `#34D399 / #22D3EE / #F59E0B / #FB7185` | `#047857 / #0E7490 / #B45309 / #BE123C` |
+| Plan tiers: basic / bronze / gold | `#38BDF8 / #F59E42 / #FACC15` | `#0284C7 / #C2570C / #B88A04` |
 
-Rules:
-- **Gold** marks brand, the primary CTA, the composite score arc, "latest year" and focus. Never use it for gain/loss.
-- **Red and green go only on signed changes**, always with a sign and an ▲▼ arrow. Levels (e.g. ROE 28.47%) stay in `--text`.
-- Verdicts render as a coloured 6px dot plus small-caps text, never as rainbow pills.
-- Theme follows `prefers-color-scheme` on first visit. The user's choice persists (wrap localStorage in try/catch) and is set by an inline script before paint, so there is no flash.
+**Bands.** The hero, the Plans section and the footer are full-width "bands" with their own dark-rich palette in both themes:
+- **Dark theme:** navy with gold, blue and emerald radial glows, plus a faint 56px grid masked to fade out.
+- **Light theme:** a royal-blue gradient (`#10276A → #16348A → #0D1F55`) with gold, cyan and violet glows.
+
+The light theme therefore stays vivid. Everything outside the bands follows the page theme.
+
+**Rules:**
+- Red and green appear only on signed changes, always with ▲ / ▼ and the sign.
+- The report card has a gradient border (gold → blue → emerald).
+- Section icons are gradient tiles in their section's colour.
 
 ### 1.2 Typography (Google Fonts)
 
@@ -77,7 +74,18 @@ Rules:
 ## 2. Information architecture: answer first, evidence next, raw data last
 
 ### 2.1 Top bar (sticky, blurred)
-Contents: logo, ⌘K / Ctrl K search palette (company, ticker or ISIN, keyboard navigable, `role=dialog`, combobox semantics), Consolidated/Standalone, **Simple/Pro** toggle (default Simple, persisted), and theme toggle. On mobile, search becomes icon-only and Consolidated/Standalone moves into the report header.
+Contents: logo, site links (Screener, Research, Plans), ⌘K / Ctrl K search palette (company, ticker or ISIN, keyboard navigable, `role=dialog`, combobox semantics), the user's **plan badge**, and theme toggle. The prototype adds a "Preview Basic / Bronze / Gold" switch for demos; in production the plan comes from the user's subscription. A market ticker tape runs above the bar.
+
+**Performance.** The prototype was measured scrolling the full page in headless Chromium:
+- **Old version:** 95% of frames took up to 33–50 ms, which users feel as stutter.
+- **Current version:** 95% of frames take 16.8 ms or less, a steady 60 fps.
+
+Keep it that way:
+- No `backdrop-filter` on sticky bars (use solid fills).
+- No fixed full-screen overlays with blend modes.
+- Never call `scrollIntoView` from a scroll-spy (scroll only the nav strip horizontally).
+- Draw charts lazily, once, when they enter the viewport.
+- Animate only `transform` and `opacity`.
 
 ### 2.2 Identity bar (compact, one line)
 Company name (serif, 34px), ticker · exchange · sector · ISIN, last price with change and as-of time, a 52-week range micro-bar, and the buttons **Watchlist** (primary), **Download** (menu, see §4) and **Copy link**. Keep it compact so it never competes with the report.
@@ -104,10 +112,10 @@ Notes · Price · Financials · Ratios · Ownership · Peers · Business · Divi
 ### 2.5 Sections
 1. **Research notes:** three columns, Strengths / Watch-outs / From the model, in plain language with real numbers.
 2. **Price & momentum:**
-   - **Price chart.** Ink line with a soft gold area. EMA 20/50/200 and volume are Pro-only. Ranges 1M–MAX. Mark the high and low. A crosshair tooltip shows date and close.
+   - **Price chart.** Ink line with a soft gold area. Volume and EMA 50 are in Basic; EMA 20/200 and other indicators are Gold. Ranges 1M–MAX. Mark the high and low. A crosshair tooltip shows date and close.
    - **Bad-tick filter:** drop any close ≤ 0, or more than 35% away from the median of its neighbours. Break the line at the gap and footnote it.
    - **Momentum card:** RSI gauge with 30/70 zones, the gaps to the 50- and 200-day averages, and price-return diverging bars.
-3. **Financials:** tabs for P&L / Balance sheet / Cash flow. Each tab has a one-line lede, a chart and, in Pro, the statement table.
+3. **Financials:** tabs for P&L / Balance sheet / Cash flow. Each tab has highlight tiles, a one-line lede, a chart and the statement table (all Basic).
    - **P&L:** stacked panels sharing years. Revenue goes on top (₹ L Cr). Net profit and net margin go below. Never use a dual axis, since revenue is about 20× profit. Highlight the latest year in gold and annotate FY23 (0.4% margin) and FY26 (PAT +93.8%).
    - **Balance sheet:** stacked funding bars (equity + reserves, borrowings, other liabilities **net of borrowings**: the feed's "other liabilities" already includes borrowings).
    - **Cash flow:** diverging operating/investing/financing bars with a free-cash-flow line. Annotate "Record ₹50,769 Cr".
@@ -119,8 +127,8 @@ Notes · Price · Financials · Ratios · Ownership · Peers · Business · Divi
      - "—" with a "Not reported" tooltip for gaps.
 4. **Ratios:** grouped by pillar (Valuation, Quality & returns, Growth, Profitability, Balance sheet, Shareholder returns).
    - Each row shows the value with its unit and an ⓘ. A bullet bar compares it with the sector where a benchmark exists ("Cheaper than sector 15.49×").
-   - Simple mode shows a definition under each row. Pro adds more rows.
-   - Pro also adds the 9-year history table with sparklines.
+   - Every row shows a plain-English definition. Extra rows are Gold (detailed ratio analysis).
+   - Nine-year small multiples are Bronze (historical trend); the full nine-year table is Gold.
 5. **Ownership:** two 100% stacked bars (a year ago against latest), plus four tiles with change chips in "pts".
 6. **Peers:** real peer set. BPCL is pinned with a gold left rule. Market cap is shown with a log-scale size bar. Each row links to that stock.
 7. **Business:** a plain-English description, consumer brands as tags, and key facts.
@@ -132,15 +140,38 @@ Notes · Price · Financials · Ratios · Ownership · Peers · Business · Divi
 
 ---
 
+## 2.6 Subscription plans and gating
+
+Prices are not decided and the plans are subject to change. Gate content by plan rank: Basic (0) < Bronze (1) < Gold (2).
+
+| Plan | Unlocks on the stock page |
+|---|---|
+| **Basic (free)** | Company overview, price chart with volume and moving averages, financial statements (P&L, balance sheet, cash flow, 5–10 years), key ratios with sector comparison, ownership, peers, dividends, method. Also includes the stock screener. |
+| **Bronze** | Everything in Basic, plus the FinLit research score and five-pillar scorecard (hero report), scorecard notes, the detailed parameter view (pillar drawer), the historical trend for each parameter (nine-year small multiples), watchlist and portfolio tracking, and exports (PDF note, offline HTML, CSV). |
+| **Gold** | Everything in Bronze, plus the advanced scoring model, detailed ratio analysis (15+ ratios, quarterly, full nine-year table), technical analysis and momentum score (RSI gauge, EMA 20/50/200 and other indicators), stock bucketing and key triggers, revenue segmentation, advanced peer insights, and priority access. |
+
+**How locked content shows.** Locked content stays in the layout, dimmed (opacity .16 with a fade mask) and `inert`. Over it sits an unlock card containing:
+- the tier badge, a title and three benefit bullets;
+- an "Unlock with Bronze/Gold" button and a "Compare plans" link.
+
+Never hide a locked section completely; the preview is the sales pitch. Small items, such as the extra ratio rows, collapse into a "+N more ratios · Gold" chip. Watchlist and Download show a lock icon on Basic and route to Plans.
+
+**Plans section**, at the bottom of the stock page (also linkable as its own `/plans` route):
+- A band with the headline "Invest smarter with *the right plan*" and a trust row: Data-driven insights · Proprietary scoring model · Reliable & transparent · Built for every investor.
+- Three plan cards:
+  - **Basic:** "Free" badge, sky blue.
+  - **Bronze:** "Popular to get started" badge, bronze-orange.
+  - **Gold:** "Most popular" badge, gold, visually featured.
+- Each card has a tier icon, description, a price block ("Free" / "Soon · pricing at launch"), a CTA, an "Everything in X, plus" feature list, and a mini preview (Basic: included modules; Bronze: an example score ring and the five pillar icons; Gold: example stock buckets).
+- Below the cards, a grouped comparison matrix (Research data · FinLit scoring · Deep analysis · Tools) with tier-coloured check marks.
+
 ## 3. Making it simple (UX rules)
 
 1. **ⓘ on every metric.**
    - Hover/focus on desktop, tap on touch, Esc to close; the popover is positioned to stay inside the viewport.
    - Content: name, one-line definition, "how to read", formula.
    - Centralise all of it in one `metricGlossary.ts`. Replace every placeholder description ("Shows a company financial metric used to compar…").
-2. **Simple vs Pro.**
-   - Simple: report, notes, 1Y chart, statement charts, core ratios with definitions, ownership, peers, dividends.
-   - Pro adds statement tables, the 9-year history, extra ratios and chart indicators.
+2. **Plans replace Simple/Pro.** What each user sees is set by their plan (§2.6). Every plan keeps the plain-English definitions under ratios.
 3. **Copy is research, not advice.** Say "Research summary", never "verdict/recommendation/analyst". Every page and export carries the not-SEBI-registered disclaimer.
 4. **Indian formatting** goes through one utility:
    - ₹ with no space, never "Rs.";
@@ -216,7 +247,7 @@ A **Download** menu in the identity bar offers three formats.
 2. **Phase 1:** tokens, fonts, theme, primitives.
 3. **Phase 2:** top bar, identity bar, Research Report hero, section nav, notes.
 4. **Phase 3:** price, financials, ratios.
-5. **Phase 4:** ownership, peers, business, dividends, method, Simple/Pro.
+5. **Phase 4:** ownership, peers, Gold insights, business, dividends, method, plan gating and the Plans section.
 6. **Phase 5:** downloads (PDF layout, offline HTML, CSV).
 7. **Phase 6:** responsive, a11y, loading/empty/error states, both themes, Lighthouse.
 
